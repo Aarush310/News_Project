@@ -1,71 +1,75 @@
 public class Customer {
 
+    private static final int MIN_AREA = 1;
+    private static final int MAX_AREA = 24;
+
+    private int customerId;
+    private String firstName;
+    private String surname;
+    private String address;
+    private String phoneNumber;
+    private int deliveryArea;
+
+    public Customer() {
+    }
+
+    public Customer(String firstName, String surname, String address,
+            String phoneNumber, int deliveryArea) {
+        this.firstName = firstName;
+        this.surname = surname;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.deliveryArea = deliveryArea;
+    }
+
     /**
-     * Verifies that a customer first name has
+     * Validates that the first name contains
      * at least one character.
-     *
-     * @param firstName Customer's first name
-     * @return true if valid, otherwise false
      */
     public boolean verifyFirstName(String firstName) {
-        throw new RuntimeException("No Product Written Yet");// TODO: Implement
+        return firstName != null
+                && !firstName.trim().isEmpty();
     }
 
     /**
-     * Verifies that a customer surname has
+     * Validates that the surname contains
      * at least one character.
-     *
-     * @param surname Customer's surname
-     * @return true if valid, otherwise false
      */
     public boolean verifySurname(String surname) {
-        throw new RuntimeException("No Product Written Yet");// TODO: Implement
+        return surname != null
+                && !surname.trim().isEmpty();
     }
 
     /**
-     * Verifies that a customer address has
+     * Validates that the address contains
      * at least one character.
-     *
-     * @param address Customer's address
-     * @return true if valid, otherwise false
      */
     public boolean verifyAddress(String address) {
-        throw new RuntimeException("No Product Written Yet");// TODO: Implement
+        return address != null
+                && !address.trim().isEmpty();
     }
 
     /**
-     * Verifies that a phone number contains
-     * exactly 10 digits.
-     *
-     * @param phoneNumber Customer's phone number
-     * @return true if valid, otherwise false
+     * Validates that the phone number
+     * contains exactly 10 digits.
      */
     public boolean verifyPhoneNumber(String phoneNumber) {
-        throw new RuntimeException("No Product Written Yet");// TODO: Implement
+        return phoneNumber != null
+                && phoneNumber.matches("\\d{10}");
     }
 
     /**
-     * Verifies that a delivery area is
-     * a number from 1 to 24.
-     *
-     * @param deliveryArea Customer's delivery area
-     * @return true if valid, otherwise false
+     * Validates that the delivery area
+     * is from 1 to 24.
      */
     public boolean verifyDeliveryArea(int deliveryArea) {
-        throw new RuntimeException("No Product Written Yet");// TODO: Implement
+        return deliveryArea >= MIN_AREA
+                && deliveryArea <= MAX_AREA;
     }
 
     /**
-     * Creates a customer account when all
-     * validation rules are satisfied.
-     *
-     * @param firstName Customer's first name
-     * @param surname Customer's surname
-     * @param address Customer's address
-     * @param phoneNumber Customer's phone number
-     * @param deliveryArea Customer's delivery area
-     * @return true if account is created,
-     * otherwise false
+     * Creates a customer account if all
+     * validation rules pass.
      */
     public boolean createCustomerAccount(
             String firstName,
@@ -73,6 +77,76 @@ public class Customer {
             String address,
             String phoneNumber,
             int deliveryArea) {
-        throw new RuntimeException("No Product Written Yet");// TODO: Implement
+        if (verifyFirstName(firstName)
+                && verifySurname(surname)
+                && verifyAddress(address)
+                && verifyPhoneNumber(phoneNumber)
+                && verifyDeliveryArea(deliveryArea)) {
+            this.firstName = firstName;
+            this.surname = surname;
+            this.address = address;
+            this.phoneNumber = phoneNumber;
+            this.deliveryArea = deliveryArea;
+            return true;
+        }
+        return false;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public int getDeliveryArea() {
+        return deliveryArea;
+    }
+
+    public void setDeliveryArea(int deliveryArea) {
+        this.deliveryArea = deliveryArea;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer ID: " + customerId +
+        "\nFirst Name: " + firstName +
+        "\nSurname: " + surname +
+        "\nAddress: " + address +
+        "\nPhone Number: " + phoneNumber +
+        "\nDelivery Area: " + deliveryArea;
     }
 }

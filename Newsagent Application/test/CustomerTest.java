@@ -246,4 +246,33 @@ public class CustomerTest {
         assertFalse(c.createCustomerAccount("John", "Smith", "Main Street, Athlone", "0871234567", 25));
     }
 
+    // ===== White-Box Tests (WB01 - WB02) =====
+
+    // WB01
+    // Test Objective: Verify first name, surname, address and phone number are rejected when null (covers the null check branches)
+    // Input(s): First Name = null, Surname = null, Address = null, Phone Number = null
+    // Expected Output(s): All four rejected
+    @Test
+    void invalidValuesNull_WB01() {
+        Customer c = new Customer();
+        assertFalse(c.verifyFirstName(null));
+        assertFalse(c.verifySurname(null));
+        assertFalse(c.verifyAddress(null));
+        assertFalse(c.verifyPhoneNumber(null));
+    }
+
+    // WB02
+    // Test Objective: Verify a created customer account stores its details (covers the getter methods)
+    // Input(s): John, Smith, Main Street, Athlone, 0871234567, 5
+    // Expected Output(s): getFirstName() = "John", getSurname() = "Smith", getAddress() = "Main Street, Athlone", getPhoneNumber() = "0871234567", getDeliveryArea() = 5
+    @Test
+    void createdCustomerStoresDetails_WB02() {
+        Customer c = new Customer();
+        c.createCustomerAccount("John", "Smith", "Main Street, Athlone", "0871234567", 5);
+        assertEquals("John", c.getFirstName());
+        assertEquals("Smith", c.getSurname());
+        assertEquals("Main Street, Athlone", c.getAddress());
+        assertEquals("0871234567", c.getPhoneNumber());
+        assertEquals(5, c.getDeliveryArea());
+    }
 }

@@ -3,9 +3,9 @@ package com.newsagent.cli;
 
 import com.newsagent.model.DeliveryArea;
 import com.newsagent.dao.DeliveryAreaDAO;
+import com.newsagent.db.DatabaseConnection;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -13,18 +13,8 @@ public class DeliveryAreaCLI {
 
     public static void main(String[] args) {
 
-        String url = System.getenv("NEWSAGENT_DB_URL");
-        String user = System.getenv("NEWSAGENT_DB_USER");
-        String password = System.getenv("NEWSAGENT_DB_PASSWORD");
-
-        if (url == null || user == null || password == null) {
-            System.out.println("Database settings are missing.");
-            System.out.println("Set NEWSAGENT_DB_URL, USER and PASSWORD.");
-            return;
-        }
-
         try (Connection connection =
-                 DriverManager.getConnection(url, user, password);
+                 DatabaseConnection.getConnection();
              Scanner scanner = new Scanner(System.in)) {
 
             DeliveryAreaDAO dao = new DeliveryAreaDAO(connection);

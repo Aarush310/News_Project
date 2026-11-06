@@ -92,4 +92,25 @@ public class DeliveryAreaDAO {
             return stmt.executeUpdate() == 1;
         }
     }
+
+    /**
+     * Counts the customers in an area, so an area with customers is not deleted.
+     */
+    public int countCustomersInArea(int areaNumber)
+            throws SQLException {
+
+        String sql = "SELECT COUNT(*) FROM CustomerTable " +
+                     "WHERE deliveryArea = ?";
+
+        try (PreparedStatement stmt =
+                 connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, areaNumber);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                return rs.getInt(1);
+            }
+        }
+    }
 }

@@ -11,9 +11,41 @@
         },
         {
             "type": "java",
+            "name": "CustomerCLI",
+            "request": "launch",
+            "mainClass": "com.newsagent.cli.CustomerCLI",
+            "projectName": "news-project",
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "java",
             "name": "OrderCLI",
             "request": "launch",
             "mainClass": "com.newsagent.cli.OrderCLI",
+            "projectName": "news-project",
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "java",
+            "name": "PublicationCLI",
+            "request": "launch",
+            "mainClass": "com.newsagent.cli.PublicationCLI",
+            "projectName": "news-project",
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "java",
+            "name": "DeliveryAreaCLI",
+            "request": "launch",
+            "mainClass": "com.newsagent.cli.DeliveryAreaCLI",
+            "projectName": "news-project",
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "java",
+            "name": "DeliveryDocketCLI",
+            "request": "launch",
+            "mainClass": "com.newsagent.cli.DeliveryDocketCLI",
             "projectName": "news-project",
             "console": "integratedTerminal"
         }

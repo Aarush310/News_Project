@@ -18,6 +18,14 @@ public class OrderDAO {
     private static final String SELECT_BY_ID =
     "SELECT * FROM OrderTable WHERE orderId = ?";
 
+    // UPDATE (the customer stays the same; publication and delivery days can change)
+    private static final String UPDATE_ORDER =
+    "UPDATE OrderTable SET publicationId = ?, deliveryDays = ? WHERE orderId = ?";
+
+    // DELETE
+    private static final String DELETE_ORDER =
+    "DELETE FROM OrderTable WHERE orderId = ?";
+
     // READ THE PUBLICATIONS ALREADY ON A CUSTOMER'S ORDER (used to stop duplicates)
     private static final String SELECT_PUBLICATIONS_FOR_CUSTOMER =
     "SELECT publicationId FROM OrderTable WHERE customerId = ?";
@@ -41,8 +49,11 @@ public class OrderDAO {
 
             return rowsInserted > 0;
 
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.out.println("Error: that customer or publication does not exist.");
+            return false;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Database error: " + e.getMessage());
             return false;
         }
     }
@@ -75,7 +86,7 @@ public class OrderDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Database error: " + e.getMessage());
         }
 
         return order;
@@ -103,7 +114,7 @@ public class OrderDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Database error: " + e.getMessage());
         }
 
         int[] result = new int[ids.size()];
@@ -111,5 +122,53 @@ public class OrderDAO {
             result[i] = ids.get(i);
         }
         return result;
+    }
+
+    /**
+     * UPDATE ORDER
+     * Saves the new publication and delivery days for the order with this order's ID.
+     */
+    public boolean updateOrder(Order order) {
+
+        try (Connection conn =
+                DatabaseConnection.getConnection();
+
+             PreparedStatement stmt =
+                conn.prepareStatement(UPDATE_ORDER)) {
+
+            stmt.setInt(1, order.getPublicationId());
+            stmt.setString(2, order.getDeliveryDays());
+            stmt.setInt(3, order.getOrderId());
+
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.out.println("Error: that publication does not exist.");
+            return false;
+        } catch (SQLException e) {
+            System.out.println("Database error: " + e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * DELETE ORDER
+     */
+    public boolean deleteOrder(int orderId) {
+
+        try (Connection conn =
+                DatabaseConnection.getConnection();
+
+             PreparedStatement stmt =
+                conn.prepareStatement(DELETE_ORDER)) {
+
+            stmt.setInt(1, orderId);
+
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            System.out.println("Database error: " + e.getMessage());
+            return false;
+        }
     }
 }

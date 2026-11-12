@@ -6,8 +6,8 @@ import java.util.Scanner;
 
 /**
  * MASTER CLI
- * One menu that opens the menu of each of the 4 entities:
- * Customer, Order, Publication and Delivery Area.
+ * One menu that opens the menu of each of the 5 entities:
+ * Customer, Order, Publication, Delivery Area and Delivery Docket.
  */
 public class MasterCLI {
 
@@ -33,7 +33,8 @@ public class MasterCLI {
             System.out.println("2. Order Management");
             System.out.println("3. Publication Management");
             System.out.println("4. Delivery Area Management");
-            System.out.println("5. Exit");
+            System.out.println("5. Delivery Docket Management");
+            System.out.println("6. Exit");
 
             choice = readInt(scanner, "Enter your choice: ");
 
@@ -42,10 +43,11 @@ public class MasterCLI {
                 case 2: OrderCLI.main(args); break;
                 case 3: PublicationCLI.main(args); break;
                 case 4: DeliveryAreaCLI.main(args); break;
-                case 5: System.out.println("Goodbye."); break;
-                default: System.out.println("Invalid choice. Enter a number from 1 to 5.");
+                case 5: DeliveryDocketCLI.main(args); break;
+                case 6: System.out.println("Goodbye."); break;
+                default: System.out.println("Invalid choice. Enter a number from 1 to 6.");
             }
-        } while (choice != 5);
+        } while (choice != 6);
     }
 
     // Reads a whole number; text such as "abc" becomes -1, which is an invalid choice

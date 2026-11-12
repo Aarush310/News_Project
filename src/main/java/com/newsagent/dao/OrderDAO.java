@@ -49,8 +49,11 @@ public class OrderDAO {
 
             return rowsInserted > 0;
 
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.out.println("Error: that customer or publication does not exist.");
+            return false;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Database error: " + e.getMessage());
             return false;
         }
     }
@@ -83,7 +86,7 @@ public class OrderDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Database error: " + e.getMessage());
         }
 
         return order;
@@ -111,7 +114,7 @@ public class OrderDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Database error: " + e.getMessage());
         }
 
         int[] result = new int[ids.size()];

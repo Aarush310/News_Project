@@ -3,9 +3,18 @@
     "configurations": [
         {
             "type": "java",
+            "name": "MasterCLI",
+            "request": "launch",
+            "mainClass": "com.newsagent.cli.MasterCLI",
+            "projectName": "news-project",
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "java",
             "name": "OrderCLI",
             "request": "launch",
             "mainClass": "com.newsagent.cli.OrderCLI",
+            "projectName": "news-project",
             "console": "integratedTerminal"
         }
     ]

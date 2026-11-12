@@ -1,4 +1,4 @@
-# Newsagent Application: Create checkpoint (4 entities)
+# Newsagent Application
 
 Architecture, as on the lecturer's board: `XxxCLI` (menu) → `Xxx` (rules) → `XxxDAO` (SQL) → `DatabaseConnection` → MySQL.
 
@@ -8,13 +8,17 @@ Architecture, as on the lecturer's board: `XxxCLI` (menu) → `Xxx` (rules) → 
 | 2 | Order | Order, OrderCLI, OrderDAO | OrderTable |
 | 3 | Publication | Publication, PublicationCLI, PublicationDAO | PublicationTable |
 | 4 | Delivery Area | DeliveryArea, DeliveryAreaCLI, DeliveryAreaDAO | DeliveryAreaTable |
+| - | Delivery Docket | DeliveryDocket, DeliveryDocketCLI, DeliveryDocketDAO | DeliveryDocketTable |
 
-All four entities use one database (`newsagentdb`) and one shared `DatabaseConnection`.
+`MasterCLI` is the main menu: it opens each entity's menu, and that menu's Exit comes back to it.
+
+All five entities use one database (`newsagentdb`) and one shared `DatabaseConnection`.
 
 ## Project structure
 
 ```
-sql/schema.sql                         creates newsagentdb and all 4 tables (run once)
+sql/schema.sql                         creates newsagentdb and all 5 tables (run once)
+sql/sample_data.sql                    realistic test data: areas, customers, publications, orders, dockets
 src/main/java/com/newsagent/
     model/   Customer, Order, Publication, DeliveryArea      (rules)
     dao/     CustomerDAO, OrderDAO, PublicationDAO, ...      (SQL)
@@ -28,10 +32,10 @@ docs/                                  test designs and class documents
 ## Run it (VS Code)
 
 1. Install the **Extension Pack for Java** (Microsoft) and a JDK (17 or newer).
-2. Run `sql/schema.sql` in MySQL Workbench.
+2. Run `sql/schema.sql` in MySQL Workbench, then `sql/sample_data.sql` for test data.
 3. File → Open Folder → this project folder. VS Code imports it as a Maven project from `pom.xml` (JUnit 5 and the MySQL driver download automatically the first time).
 4. In `src/main/java/com/newsagent/db/DatabaseConnection.java` put your own MySQL username and password. Do not commit your real password.
-5. Open any CLI in `src/main/java/com/newsagent/cli/` and press Run above `main`. Add customers and publications before orders: an order needs an existing customer and publication.
+5. Open `src/main/java/com/newsagent/cli/MasterCLI.java` and press Run above `main` (or run any single entity CLI). Add customers and publications before orders: an order needs an existing customer and publication.
 6. Run the tests from the Testing panel (beaker icon).
 7. Check the rows in MySQL Workbench, e.g. `SELECT * FROM PublicationTable;`
 

@@ -49,7 +49,7 @@ public class CustomerDAO {
             return rowsInserted > 0;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Database error: " + e.getMessage());
             return false;
         }
     }
@@ -84,7 +84,7 @@ public class CustomerDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Database error: " + e.getMessage());
         }
 
         return customer;

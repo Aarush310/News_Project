@@ -3,6 +3,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "MasterCLI",
+            "request": "launch",
+            "mainClass": "com.newsagent.cli.MasterCLI",
+            "projectName": "news-project"
+        },
+        {
+            "type": "java",
             "name": "CustomerCLI",
             "request": "launch",
             "mainClass": "com.newsagent.cli.CustomerCLI",

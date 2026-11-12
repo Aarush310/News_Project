@@ -1,5 +1,6 @@
--- Newsagent Delivery System: tables for the 4 checkpoint entities
--- Run once in MySQL Workbench. Order is last because it links to Customer and Publication.
+-- Newsagent Delivery System: tables for the 5 entities
+-- Run once in MySQL Workbench. Order and Delivery Docket are last because they link to the other tables.
+-- Then run sql/sample_data.sql for realistic test data.
 
 CREATE DATABASE IF NOT EXISTS newsagentdb;
 USE newsagentdb;
@@ -51,4 +52,16 @@ CREATE TABLE IF NOT EXISTS OrderTable
     CONSTRAINT uq_order_customer_publication UNIQUE (customerId, publicationId),
     CONSTRAINT fk_order_customer FOREIGN KEY (customerId) REFERENCES CustomerTable (customerId),
     CONSTRAINT fk_order_publication FOREIGN KEY (publicationId) REFERENCES PublicationTable (publicationId)
+);
+
+-- Delivery Docket (one per delivery area per day)
+CREATE TABLE IF NOT EXISTS DeliveryDocketTable
+(
+    docketId INT AUTO_INCREMENT PRIMARY KEY,
+    areaNumber INT NOT NULL,
+    docketDate DATE NOT NULL,
+    status VARCHAR(10) NOT NULL DEFAULT 'PENDING',
+    CONSTRAINT uq_docket_area_date UNIQUE (areaNumber, docketDate),
+    CONSTRAINT chk_docket_status CHECK (status IN ('PENDING', 'DELIVERED')),
+    CONSTRAINT fk_docket_area FOREIGN KEY (areaNumber) REFERENCES DeliveryAreaTable (areaNumber) ON DELETE CASCADE
 );

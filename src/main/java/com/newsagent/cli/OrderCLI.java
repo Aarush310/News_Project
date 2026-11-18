@@ -55,7 +55,25 @@ public class OrderCLI {
 
         int customerId = readInt(scanner, "Customer ID: ");
 
+        // Look the customer up so an order can only be made for a real customer
+        Customer customer = new CustomerDAO().findCustomerById(customerId);
+        if (customer == null) {
+            System.out.println("Error: Customer " + customerId + " does not exist.");
+            System.out.println("Order not created.");
+            return;
+        }
+        System.out.println("Customer: " + customer.getFirstName() + " " + customer.getSurname());
+
         int publicationId = readInt(scanner, "Publication ID: ");
+
+        // Look the publication up so only a real publication can be ordered
+        Publication publication = new PublicationDAO().findPublicationById(publicationId);
+        if (publication == null) {
+            System.out.println("Error: Publication " + publicationId + " does not exist.");
+            System.out.println("Order not created.");
+            return;
+        }
+        System.out.println("Publication: " + publication.getName());
 
         System.out.print("Delivery Days (e.g. MON,TUE,WED,THU,FRI): ");
         String deliveryDays = scanner.nextLine().trim().toUpperCase().replace(" ", "");
@@ -188,6 +206,15 @@ public class OrderCLI {
         System.out.println("=== Enter New Details ===");
 
         int publicationId = readInt(scanner, "Publication ID: ");
+
+        // Look the publication up so only a real publication can be ordered
+        Publication publication = new PublicationDAO().findPublicationById(publicationId);
+        if (publication == null) {
+            System.out.println("Error: Publication " + publicationId + " does not exist.");
+            System.out.println("Order not updated.");
+            return;
+        }
+        System.out.println("Publication: " + publication.getName());
 
         System.out.print("Delivery Days (e.g. MON,TUE,WED,THU,FRI): ");
         String deliveryDays = scanner.nextLine().trim().toUpperCase().replace(" ", "");

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 public class OrderTest {
 
-    // ===== Black-Box Tests (TC01 - TC25) =====
+    // ===== Black-Box Tests (TC01 - TC29) =====
 
     // TC01
     // Test Objective: Verify customer ID is accepted at the minimum boundary
@@ -260,7 +260,47 @@ public class OrderTest {
         assertFalse(o.isDueOn("MON,SAT", "monthly", LocalDate.of(2026, 10, 5)));
     }
 
-    // ===== White-Box Tests (WB01 - WB02) =====
+    // TC26
+    // Test Objective: Verify a customer name is accepted at the minimum length (1 character)
+    // Input(s): Customer Name = "M"
+    // Expected Output(s): Name accepted
+    @Test
+    void validCustomerNameMinimum_TC26() {
+        Order o = new Order();
+        assertTrue(o.verifyCustomerName("M"));
+    }
+
+    // TC27
+    // Test Objective: Verify a customer name is accepted at the maximum length (50 characters)
+    // Input(s): Customer Name = 50 x "a"
+    // Expected Output(s): Name accepted
+    @Test
+    void validCustomerNameMaximum_TC27() {
+        Order o = new Order();
+        assertTrue(o.verifyCustomerName("a".repeat(50)));
+    }
+
+    // TC28
+    // Test Objective: Verify a customer name is rejected above the maximum length (51 characters)
+    // Input(s): Customer Name = 51 x "a"
+    // Expected Output(s): Error message: "Invalid Customer Name"
+    @Test
+    void invalidCustomerNameTooLong_TC28() {
+        Order o = new Order();
+        assertFalse(o.verifyCustomerName("a".repeat(51)));
+    }
+
+    // TC29
+    // Test Objective: Verify a customer name is rejected when it is only spaces
+    // Input(s): Customer Name = "   "
+    // Expected Output(s): Error message: "Invalid Customer Name"
+    @Test
+    void invalidCustomerNameBlank_TC29() {
+        Order o = new Order();
+        assertFalse(o.verifyCustomerName("   "));
+    }
+
+    // ===== White-Box Tests (WB01 - WB03) =====
 
     // WB01
     // Test Objective: Verify delivery days are rejected when null (covers the null check branch)
@@ -283,5 +323,15 @@ public class OrderTest {
         assertEquals(1, o.getCustomerId());
         assertEquals(2, o.getPublicationId());
         assertEquals("MON,TUE,WED,THU,FRI", o.getDeliveryDays());
+    }
+
+    // WB03
+    // Test Objective: Verify a customer name is rejected when null (covers the null check branch)
+    // Input(s): Customer Name = null
+    // Expected Output(s): Error message: "Invalid Customer Name"
+    @Test
+    void invalidCustomerNameNull_WB03() {
+        Order o = new Order();
+        assertFalse(o.verifyCustomerName(null));
     }
 }

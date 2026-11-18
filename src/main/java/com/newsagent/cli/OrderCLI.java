@@ -1,7 +1,11 @@
 package com.newsagent.cli;
 
+import com.newsagent.dao.CustomerDAO;
 import com.newsagent.dao.OrderDAO;
+import com.newsagent.dao.PublicationDAO;
+import com.newsagent.model.Customer;
 import com.newsagent.model.Order;
+import com.newsagent.model.Publication;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -19,23 +23,25 @@ public class OrderCLI {
             System.out.println("===== ORDER MANAGEMENT MENU =====");
             System.out.println("1. Add Order");
             System.out.println("2. Find Order By ID");
-            System.out.println("3. List All Orders");
-            System.out.println("4. Update Order");
-            System.out.println("5. Delete Order");
-            System.out.println("6. Exit");
+            System.out.println("3. Find Orders By Customer Name");
+            System.out.println("4. List All Orders");
+            System.out.println("5. Update Order");
+            System.out.println("6. Delete Order");
+            System.out.println("7. Exit");
 
             choice = readInt(scanner, "Enter your choice: ");
 
             switch (choice) {
                 case 1: addOrder(scanner, orderDAO); break;
                 case 2: findOrder(scanner, orderDAO); break;
-                case 3: listOrders(orderDAO); break;
-                case 4: updateOrder(scanner, orderDAO); break;
-                case 5: deleteOrder(scanner, orderDAO); break;
-                case 6: System.out.println("Goodbye."); break;
-                default: System.out.println("Invalid choice. Enter a number from 1 to 6.");
+                case 3: findOrdersByCustomerName(scanner, orderDAO); break;
+                case 4: listOrders(orderDAO); break;
+                case 5: updateOrder(scanner, orderDAO); break;
+                case 6: deleteOrder(scanner, orderDAO); break;
+                case 7: System.out.println("Goodbye."); break;
+                default: System.out.println("Invalid choice. Enter a number from 1 to 7.");
             }
-        } while (choice != 6);
+        } while (choice != 7);
 
         scanner.close();
     }
@@ -98,6 +104,49 @@ public class OrderCLI {
         } else {
             System.out.println(order);
         }
+    }
+
+    /**
+     * FIND ORDERS BY CUSTOMER NAME
+     * Shows every publication each matching customer gets.
+     */
+    private static void findOrdersByCustomerName(Scanner scanner, OrderDAO orderDAO) {
+
+        System.out.print("Customer name (first name, surname or both): ");
+        String name = scanner.nextLine();
+
+        // The PE class checks the rule (the method tested by JUnit)
+        Order rules = new Order();
+        if (!rules.verifyCustomerName(name)) {
+            System.out.println("Error: Invalid Customer Name");
+            return;
+        }
+
+        ArrayList<Order> orders = orderDAO.findOrdersByCustomerName(name);
+
+        if (orders.isEmpty()) {
+            System.out.println("No orders found for \"" + name.trim() + "\".");
+            return;
+        }
+
+        CustomerDAO customerDAO = new CustomerDAO();
+        PublicationDAO publicationDAO = new PublicationDAO();
+
+        System.out.println("=== Orders for \"" + name.trim() + "\" ===");
+        for (Order order : orders) {
+            Customer customer = customerDAO.findCustomerById(order.getCustomerId());
+            Publication publication = publicationDAO.findPublicationById(order.getPublicationId());
+
+            System.out.println("Order ID: " + order.getOrderId());
+            System.out.println("Customer: " + (customer == null ? "?" :
+                    customer.getFirstName() + " " + customer.getSurname())
+                    + " (ID " + order.getCustomerId() + ")");
+            System.out.println("Publication: " + (publication == null ? "?" : publication.getName())
+                    + " (ID " + order.getPublicationId() + ")");
+            System.out.println("Delivery Days: " + order.getDeliveryDays());
+            System.out.println("------------------");
+        }
+        System.out.println(orders.size() + " order(s).");
     }
 
     /**

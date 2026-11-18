@@ -30,6 +30,14 @@ public class OrderDAO {
     private static final String SELECT_ALL =
     "SELECT * FROM OrderTable ORDER BY orderId";
 
+    // READ ALL ORDERS FOR CUSTOMERS WHOSE NAME MATCHES (first name, surname or full name)
+    private static final String SELECT_BY_CUSTOMER_NAME =
+    "SELECT o.* FROM OrderTable o " +
+    "JOIN CustomerTable c ON o.customerId = c.customerId " +
+    "WHERE c.firstName LIKE ? OR c.surname LIKE ? " +
+    "OR CONCAT(c.firstName, ' ', c.surname) LIKE ? " +
+    "ORDER BY c.surname, c.firstName, o.orderId";
+
     // READ THE PUBLICATIONS ALREADY ON A CUSTOMER'S ORDER (used to stop duplicates)
     private static final String SELECT_PUBLICATIONS_FOR_CUSTOMER =
     "SELECT publicationId FROM OrderTable WHERE customerId = ?";
@@ -121,6 +129,49 @@ public class OrderDAO {
                 order.setDeliveryDays(rs.getString("deliveryDays"));
 
                 orders.add(order);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Database error: " + e.getMessage());
+        }
+
+        return orders;
+    }
+
+    /**
+     * FIND ORDERS BY CUSTOMER NAME
+     * Matches part of the first name, surname or full name, so "Murphy"
+     * or "John Murphy" both work. A customer with several publications
+     * gets one row per publication.
+     */
+    public ArrayList<Order> findOrdersByCustomerName(String customerName) {
+
+        ArrayList<Order> orders = new ArrayList<>();
+        String pattern = "%" + customerName.trim() + "%";
+
+        try (Connection conn =
+                DatabaseConnection.getConnection();
+
+             PreparedStatement stmt =
+                conn.prepareStatement(SELECT_BY_CUSTOMER_NAME)) {
+
+            stmt.setString(1, pattern);
+            stmt.setString(2, pattern);
+            stmt.setString(3, pattern);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                while (rs.next()) {
+
+                    Order order = new Order();
+
+                    order.setOrderId(rs.getInt("orderId"));
+                    order.setCustomerId(rs.getInt("customerId"));
+                    order.setPublicationId(rs.getInt("publicationId"));
+                    order.setDeliveryDays(rs.getString("deliveryDays"));
+
+                    orders.add(order);
+                }
             }
 
         } catch (SQLException e) {

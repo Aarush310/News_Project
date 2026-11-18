@@ -1,3 +1,4 @@
+
 package com.newsagent.cli;
 
 import java.io.FilterInputStream;
@@ -6,16 +7,13 @@ import java.util.Scanner;
 
 /**
  * MASTER CLI
- * One menu that opens the menu of each of the 5 entities:
- * Customer, Order, Publication, Delivery Area and Delivery Docket.
+ * Main menu for all Newsagent entities and extra features.
  */
 public class MasterCLI {
 
     public static void main(String[] args) {
 
-        // Each entity CLI closes its own Scanner when it exits, which would
-        // also close the keyboard (System.in). This wrapper ignores close(),
-        // so the keyboard stays open and we can come back to this menu.
+        // Keep System.in open when returning from other menus
         System.setIn(new FilterInputStream(System.in) {
             @Override
             public void close() throws IOException {
@@ -34,25 +32,52 @@ public class MasterCLI {
             System.out.println("3. Publication Management");
             System.out.println("4. Delivery Area Management");
             System.out.println("5. Delivery Docket Management");
-            System.out.println("6. Exit");
+            System.out.println("6. Extra Features");
+            System.out.println("7. Exit");
 
             choice = readInt(scanner, "Enter your choice: ");
 
             switch (choice) {
-                case 1: CustomerCLI.main(args); break;
-                case 2: OrderCLI.main(args); break;
-                case 3: PublicationCLI.main(args); break;
-                case 4: DeliveryAreaCLI.main(args); break;
-                case 5: DeliveryDocketCLI.main(args); break;
-                case 6: System.out.println("Goodbye."); break;
-                default: System.out.println("Invalid choice. Enter a number from 1 to 6.");
+                case 1:
+                    CustomerCLI.main(args);
+                    break;
+
+                case 2:
+                    OrderCLI.main(args);
+                    break;
+
+                case 3:
+                    PublicationCLI.main(args);
+                    break;
+
+                case 4:
+                    DeliveryAreaCLI.main(args);
+                    break;
+
+                case 5:
+                    DeliveryDocketCLI.main(args);
+                    break;
+
+                case 6:
+                    ExtraFeaturesCLI.main(args);
+                    break;
+
+                case 7:
+                    System.out.println("Goodbye.");
+                    break;
+
+                default:
+                    System.out.println(
+                        "Invalid choice. Enter a number from 1 to 7."
+                    );
             }
-        } while (choice != 6);
+
+        } while (choice != 7);
     }
 
-    // Reads a whole number; text such as "abc" becomes -1, which is an invalid choice
     private static int readInt(Scanner scanner, String prompt) {
         System.out.print(prompt);
+
         try {
             return Integer.parseInt(scanner.nextLine().trim());
         } catch (NumberFormatException e) {

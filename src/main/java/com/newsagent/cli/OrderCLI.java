@@ -3,6 +3,7 @@ package com.newsagent.cli;
 import com.newsagent.dao.OrderDAO;
 import com.newsagent.model.Order;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class OrderCLI {
@@ -18,21 +19,23 @@ public class OrderCLI {
             System.out.println("===== ORDER MANAGEMENT MENU =====");
             System.out.println("1. Add Order");
             System.out.println("2. Find Order By ID");
-            System.out.println("3. Update Order");
-            System.out.println("4. Delete Order");
-            System.out.println("5. Exit");
+            System.out.println("3. List All Orders");
+            System.out.println("4. Update Order");
+            System.out.println("5. Delete Order");
+            System.out.println("6. Exit");
 
             choice = readInt(scanner, "Enter your choice: ");
 
             switch (choice) {
                 case 1: addOrder(scanner, orderDAO); break;
                 case 2: findOrder(scanner, orderDAO); break;
-                case 3: updateOrder(scanner, orderDAO); break;
-                case 4: deleteOrder(scanner, orderDAO); break;
-                case 5: System.out.println("Goodbye."); break;
-                default: System.out.println("Invalid choice. Enter a number from 1 to 5.");
+                case 3: listOrders(orderDAO); break;
+                case 4: updateOrder(scanner, orderDAO); break;
+                case 5: deleteOrder(scanner, orderDAO); break;
+                case 6: System.out.println("Goodbye."); break;
+                default: System.out.println("Invalid choice. Enter a number from 1 to 6.");
             }
-        } while (choice != 5);
+        } while (choice != 6);
 
         scanner.close();
     }
@@ -95,6 +98,26 @@ public class OrderCLI {
         } else {
             System.out.println(order);
         }
+    }
+
+    /**
+     * LIST ALL ORDERS
+     */
+    private static void listOrders(OrderDAO orderDAO) {
+
+        ArrayList<Order> orders = orderDAO.getAllOrders();
+
+        if (orders.isEmpty()) {
+            System.out.println("No orders found.");
+            return;
+        }
+
+        System.out.println("=== All Orders ===");
+        for (Order order : orders) {
+            System.out.println(order);
+            System.out.println("------------------");
+        }
+        System.out.println(orders.size() + " order(s).");
     }
 
     /**

@@ -9,6 +9,8 @@ public class Order {
 
     private static final int MIN_ID = 1;
     private static final int MAX_DAYS = 7;
+    private static final int MIN_NAME = 1;
+    private static final int MAX_NAME = 50;
     private static final List<String> VALID_DAYS =
             Arrays.asList("MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN");
 
@@ -84,7 +86,11 @@ public class Order {
      * 1 to 50 characters, not blank.
      */
     public boolean verifyCustomerName(String customerName) {
-        throw new RuntimeException("No Product Written Yet");
+        if (customerName == null) {
+            return false;
+        }
+        String name = customerName.trim();
+        return name.length() >= MIN_NAME && name.length() <= MAX_NAME;
     }
 
     /**

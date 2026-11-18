@@ -80,6 +80,14 @@ public class Order {
     }
 
     /**
+     * Validates a customer name typed in to search for orders:
+     * 1 to 50 characters, not blank.
+     */
+    public boolean verifyCustomerName(String customerName) {
+        throw new RuntimeException("No Product Written Yet");
+    }
+
+    /**
      * Creates an order if all
      * validation rules pass.
      */

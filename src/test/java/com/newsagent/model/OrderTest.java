@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 public class OrderTest {
 
-    // ===== Black-Box Tests (TC01 - TC22) =====
+    // ===== Black-Box Tests (TC01 - TC25) =====
 
     // TC01
     // Test Objective: Verify customer ID is accepted at the minimum boundary
@@ -227,6 +227,37 @@ public class OrderTest {
     void monthlyNotDueOnLaterChosenDay_TC22() {
         Order o = new Order();
         assertFalse(o.isDueOn("SAT", "monthly", LocalDate.of(2026, 10, 10)));
+    }
+
+    // TC23
+    // Test Objective: Verify delivery days are rejected when they end with a comma
+    // Input(s): Delivery Days = "MON,"
+    // Expected Output(s): Error message: "Invalid Delivery Days"
+    @Test
+    void invalidDeliveryDaysTrailingComma_TC23() {
+        Order o = new Order();
+        assertFalse(o.verifyDeliveryDays("MON,"));
+    }
+
+    // TC24
+    // Test Objective: Verify a publication is accepted when the customer has no publications on the order yet
+    // Input(s): Publication ID = 1; publications already on order = [] (empty)
+    // Expected Output(s): Publication accepted
+    @Test
+    void validNewPublicationFirstOnOrder_TC24() {
+        Order o = new Order();
+        assertTrue(o.verifyNewPublication(1, new int[] {}));
+    }
+
+    // TC25
+    // Test Objective: Verify a monthly magazine with two chosen days is due only on the first chosen day of the month
+    // Input(s): Days = MON,SAT, frequency = monthly, dates = Sat 03/10/2026 and Mon 05/10/2026
+    // Expected Output(s): Sat 03/10/2026 due (true); Mon 05/10/2026 not due (false)
+    @Test
+    void monthlyTwoChosenDaysDueOnlyOnFirst_TC25() {
+        Order o = new Order();
+        assertTrue(o.isDueOn("MON,SAT", "monthly", LocalDate.of(2026, 10, 3)));
+        assertFalse(o.isDueOn("MON,SAT", "monthly", LocalDate.of(2026, 10, 5)));
     }
 
     // ===== White-Box Tests (WB01 - WB02) =====

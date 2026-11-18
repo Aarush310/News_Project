@@ -50,7 +50,8 @@ public class Order {
         if (deliveryDays == null || deliveryDays.isEmpty()) {
             return false;
         }
-        String[] days = deliveryDays.split(",");
+        // -1 keeps empty parts, so "MON," is rejected instead of read as "MON"
+        String[] days = deliveryDays.split(",", -1);
         if (days.length > MAX_DAYS) {
             return false;
         }
@@ -110,7 +111,23 @@ public class Order {
             return false;
         }
         if ("monthly".equals(frequency)) {
-            return date.getDayOfMonth() <= 7;
+            return isFirstChosenDayOfMonth(deliveryDays, date);
+        }
+        return true;
+    }
+
+    /**
+     * True when no earlier date in the same month falls on
+     * one of the chosen days (works for one or more chosen days).
+     */
+    private boolean isFirstChosenDayOfMonth(String deliveryDays, LocalDate date) {
+        List<String> chosen = Arrays.asList(deliveryDays.split(","));
+        for (int dayOfMonth = 1; dayOfMonth < date.getDayOfMonth(); dayOfMonth++) {
+            String name = date.withDayOfMonth(dayOfMonth)
+                    .getDayOfWeek().name().substring(0, 3);
+            if (chosen.contains(name)) {
+                return false;
+            }
         }
         return true;
     }

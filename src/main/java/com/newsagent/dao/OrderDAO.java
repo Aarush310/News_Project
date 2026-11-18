@@ -26,6 +26,10 @@ public class OrderDAO {
     private static final String DELETE_ORDER =
     "DELETE FROM OrderTable WHERE orderId = ?";
 
+    // READ ALL
+    private static final String SELECT_ALL =
+    "SELECT * FROM OrderTable ORDER BY orderId";
+
     // READ THE PUBLICATIONS ALREADY ON A CUSTOMER'S ORDER (used to stop duplicates)
     private static final String SELECT_PUBLICATIONS_FOR_CUSTOMER =
     "SELECT publicationId FROM OrderTable WHERE customerId = ?";
@@ -90,6 +94,40 @@ public class OrderDAO {
         }
 
         return order;
+    }
+
+    /**
+     * GET ALL ORDERS
+     */
+    public ArrayList<Order> getAllOrders() {
+
+        ArrayList<Order> orders = new ArrayList<>();
+
+        try (Connection conn =
+                DatabaseConnection.getConnection();
+
+             PreparedStatement stmt =
+                conn.prepareStatement(SELECT_ALL);
+
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+
+                Order order = new Order();
+
+                order.setOrderId(rs.getInt("orderId"));
+                order.setCustomerId(rs.getInt("customerId"));
+                order.setPublicationId(rs.getInt("publicationId"));
+                order.setDeliveryDays(rs.getString("deliveryDays"));
+
+                orders.add(order);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Database error: " + e.getMessage());
+        }
+
+        return orders;
     }
 
     /**

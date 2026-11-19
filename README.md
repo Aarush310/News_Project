@@ -47,6 +47,15 @@ If VS Code shows old errors after pulling: Ctrl+Shift+P → `Java: Clean Java La
 2. Run `XxxTest`: every test fails ("No Product Written Yet"). Screenshot it.
 3. Source Control → right-click `Xxx.java` → Discard Changes, run `XxxTest` again: all pass. Screenshot it.
 
+## Demo checklist
+
+| Requirement | Where to show it |
+| --- | --- |
+| 100% equivalence partitioning and boundary value analysis | Run all tests in the Testing panel: 180 JUnit tests pass. Coverage per rule: `docs/Test Design - EP and BVA.xlsx` (one EP-BVA sheet per entity). |
+| Show order IDs by your name (two tables connected) | `MasterCLI` → 2. Order Management → 3. Find Orders By Customer Name, type your name. In Workbench: run `sql/orders_by_customer_name.sql` (`CustomerTable JOIN OrderTable`). |
+| SDLC justification | `docs/SDLC Justification.docx` (Scrum, compared with Waterfall, V-Model, Iterative, Incremental, Spiral). |
+| User stories and test design | `docs/User Stories.xlsx` (US1-US32 with acceptance criteria) and `docs/Test Design - EP and BVA.xlsx`. |
+
 ## GitHub
 
 Work on a branch and open a pull request. Commit in TDD order so the history shows it: skeleton → black-box tests (failing) → product class → white-box tests → DAO → CLI → SQL table. Start each message with the story number, e.g. `US9: add Publication product skeleton`.

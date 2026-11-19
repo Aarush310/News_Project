@@ -33,6 +33,10 @@ public class Order {
 		throw new UnsupportedOperationException("No Product Written Yet");
 	}
 
+	public boolean verifyCustomerName(String customerName) {
+		throw new UnsupportedOperationException("No Product Written Yet");
+	}
+
 	public boolean createOrder(int customerId, int publicationId, String deliveryDays, int[] publicationsOnOrder) {
 		throw new UnsupportedOperationException("No Product Written Yet");
 	}

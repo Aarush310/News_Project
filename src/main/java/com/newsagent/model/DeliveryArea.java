@@ -22,7 +22,8 @@ public class DeliveryArea {
     }
 
     public boolean verifyAreaName(String name) {
-        return name != null && !name.trim().isEmpty();
+        return name != null && !name.trim().isEmpty()
+                && name.trim().length() <= 50;
     }
 
     public boolean verifyDeliveryPersonId(int id) {

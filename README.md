@@ -9,10 +9,11 @@ Architecture, as on the lecturer's board: `XxxCLI` (menu) → `Xxx` (rules) → 
 | 3 | Publication | Publication, PublicationCLI, PublicationDAO | PublicationTable |
 | 4 | Delivery Area | DeliveryArea, DeliveryAreaCLI, DeliveryAreaDAO | DeliveryAreaTable |
 | - | Delivery Docket | DeliveryDocket, DeliveryDocketCLI, DeliveryDocketDAO | DeliveryDocketTable |
+| - | Bill | Bill, BillLine, BillCLI, BillDAO | (calculated from OrderTable and PublicationTable) |
 
-`MasterCLI` is the main menu: it opens each entity's menu, and that menu's Exit comes back to it.
+`MasterCLI` is the main menu: 1. Customers, 2. Orders, 3. Publications, 4. Delivery Areas, 5. Delivery Dockets, 6. Extra Features, 7. Monthly Bills, 8. Exit. Each entity menu has Add, Find By ID, Update, Delete and List All, and its Exit comes back to the main menu.
 
-All five entities use one database (`newsagentdb`) and one shared `DatabaseConnection`.
+All six entities use one database (`newsagentdb`) and one shared `DatabaseConnection`.
 
 ## Project structure
 
@@ -20,7 +21,7 @@ All five entities use one database (`newsagentdb`) and one shared `DatabaseConne
 sql/schema.sql                         creates newsagentdb and all 5 tables (run once)
 sql/sample_data.sql                    realistic test data: areas, customers, publications, orders, dockets
 src/main/java/com/newsagent/
-    model/   Customer, Order, Publication, DeliveryArea      (rules)
+    model/   Customer, Order, Publication, DeliveryArea, DeliveryDocket, Bill  (rules)
     dao/     CustomerDAO, OrderDAO, PublicationDAO, ...      (SQL)
     cli/     CustomerCLI, OrderCLI, PublicationCLI, ...      (menus, run these)
     db/      DatabaseConnection                              (shared connection)

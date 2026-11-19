@@ -19,6 +19,10 @@ public class DeliveryDocketDAO {
     private static final String SELECT_BY_ID =
     "SELECT * FROM DeliveryDocketTable WHERE docketId = ?";
 
+    // READ ALL
+    private static final String SELECT_ALL =
+    "SELECT * FROM DeliveryDocketTable ORDER BY docketDate, areaNumber";
+
     // UPDATE (the area stays the same; the date and status can change)
     private static final String UPDATE_DOCKET =
     "UPDATE DeliveryDocketTable SET docketDate = ?, status = ? WHERE docketId = ?";
@@ -99,6 +103,37 @@ public class DeliveryDocketDAO {
         }
 
         return docket;
+    }
+
+    /**
+     * LIST ALL DOCKETS
+     */
+    public List<DeliveryDocket> getAllDockets() {
+
+        List<DeliveryDocket> dockets = new ArrayList<>();
+
+        try (Connection conn =
+                DatabaseConnection.getConnection();
+
+             PreparedStatement stmt =
+                conn.prepareStatement(SELECT_ALL);
+
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                DeliveryDocket docket = new DeliveryDocket();
+                docket.setDocketId(rs.getInt("docketId"));
+                docket.setAreaNumber(rs.getInt("areaNumber"));
+                docket.setDocketDate(rs.getDate("docketDate").toLocalDate());
+                docket.setStatus(rs.getString("status"));
+                dockets.add(docket);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Database error: " + e.getMessage());
+        }
+
+        return dockets;
     }
 
     /**

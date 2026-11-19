@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class DeliveryAreaDAO {
 
@@ -58,6 +59,31 @@ public class DeliveryAreaDAO {
         }
 
         return null;
+    }
+
+    public ArrayList<DeliveryArea> getAllDeliveryAreas()
+            throws SQLException {
+
+        String sql = "SELECT areaNumber, areaName, " +
+                     "deliveryPersonId FROM DeliveryAreaTable " +
+                     "ORDER BY areaNumber";
+
+        ArrayList<DeliveryArea> areas = new ArrayList<>();
+
+        try (PreparedStatement stmt =
+                 connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                areas.add(new DeliveryArea(
+                    rs.getInt("areaNumber"),
+                    rs.getString("areaName"),
+                    rs.getInt("deliveryPersonId")
+                ));
+            }
+        }
+
+        return areas;
     }
 
     public boolean updateDeliveryArea(DeliveryArea area)

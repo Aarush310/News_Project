@@ -3,6 +3,7 @@ package com.newsagent.cli;
 import com.newsagent.dao.CustomerDAO;
 import com.newsagent.model.Customer;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CustomerCLI {
@@ -20,7 +21,8 @@ public class CustomerCLI {
             System.out.println("2. Find Customer By ID");
             System.out.println("3. Update Customer");
             System.out.println("4. Delete Customer");
-            System.out.println("5. Exit");
+            System.out.println("5. List All Customers");
+            System.out.println("6. Exit");
 
             choice = readInt(scanner, "Enter your choice: ");
 
@@ -29,10 +31,11 @@ public class CustomerCLI {
                 case 2: findCustomer(scanner, customerDAO); break;
                 case 3: updateCustomer(scanner, customerDAO); break;
                 case 4: deleteCustomer(scanner, customerDAO); break;
-                case 5: System.out.println("Goodbye."); break;
-                default: System.out.println("Invalid choice. Enter a number from 1 to 5.");
+                case 5: listCustomers(customerDAO); break;
+                case 6: System.out.println("Goodbye."); break;
+                default: System.out.println("Invalid choice. Enter a number from 1 to 6.");
             }
-        } while (choice != 5);
+        } while (choice != 6);
 
         scanner.close();
     }
@@ -104,6 +107,26 @@ public class CustomerCLI {
         } else {
             System.out.println(customer);
         }
+    }
+
+    /**
+     * LIST ALL CUSTOMERS
+     */
+    private static void listCustomers(CustomerDAO customerDAO) {
+
+        ArrayList<Customer> customers = customerDAO.getAllCustomers();
+
+        if (customers.isEmpty()) {
+            System.out.println("No customers found.");
+            return;
+        }
+
+        System.out.println("=== All Customers ===");
+        for (Customer customer : customers) {
+            System.out.println(customer);
+            System.out.println("------------------");
+        }
+        System.out.println(customers.size() + " customer(s).");
     }
 
     /**

@@ -4,6 +4,7 @@ import com.newsagent.db.DatabaseConnection;
 import com.newsagent.model.Customer;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class CustomerDAO {
 
@@ -16,6 +17,10 @@ public class CustomerDAO {
     // READ ONE
     private static final String SELECT_BY_ID =
     "SELECT * FROM CustomerTable WHERE customerId = ?";
+
+    // READ ALL
+    private static final String SELECT_ALL =
+    "SELECT * FROM CustomerTable ORDER BY customerId";
 
     // UPDATE
     private static final String UPDATE_CUSTOMER =
@@ -115,6 +120,42 @@ public class CustomerDAO {
             System.out.println("Database error: " + e.getMessage());
             return false;
         }
+    }
+
+    /**
+     * LIST ALL CUSTOMERS
+     */
+    public ArrayList<Customer> getAllCustomers() {
+
+        ArrayList<Customer> customers = new ArrayList<>();
+
+        try (Connection conn =
+                DatabaseConnection.getConnection();
+
+             PreparedStatement stmt =
+                conn.prepareStatement(SELECT_ALL);
+
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+
+                Customer customer = new Customer();
+
+                customer.setCustomerId(rs.getInt("customerId"));
+                customer.setFirstName(rs.getString("firstName"));
+                customer.setSurname(rs.getString("surname"));
+                customer.setAddress(rs.getString("address"));
+                customer.setPhoneNumber(rs.getString("phoneNumber"));
+                customer.setDeliveryArea(rs.getInt("deliveryArea"));
+
+                customers.add(customer);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Database error: " + e.getMessage());
+        }
+
+        return customers;
     }
 
     /**

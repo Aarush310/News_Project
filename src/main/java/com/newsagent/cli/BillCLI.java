@@ -213,7 +213,6 @@ public class BillCLI {
      * Reads a whole number and handles invalid text input.
      */
     private static int readInt(Scanner scanner, String prompt) {
-git diff -- src/main/java/com/newsagent/cli/BillCLI.java
         System.out.print(prompt);
 
         try {

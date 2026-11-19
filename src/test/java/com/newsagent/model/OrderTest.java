@@ -7,9 +7,10 @@ import org.junit.jupiter.api.Test;
 
 public class OrderTest {
 
-    // ===== Black-Box Tests (TC01 - TC29) =====
+    // ===== Black-Box Tests (TC01 - TC43) =====
 
     // TC01
+    // Technique: BVA
     // Test Objective: Verify customer ID is accepted at the minimum boundary
     // Input(s): Customer ID = 1
     // Expected Output(s): Customer ID accepted
@@ -20,6 +21,7 @@ public class OrderTest {
     }
 
     // TC02
+    // Technique: BVA
     // Test Objective: Verify customer ID is rejected below the minimum
     // Input(s): Customer ID = 0
     // Expected Output(s): Error message: "Invalid Customer ID"
@@ -30,6 +32,7 @@ public class OrderTest {
     }
 
     // TC03
+    // Technique: BVA
     // Test Objective: Verify publication ID is accepted at the minimum boundary
     // Input(s): Publication ID = 1
     // Expected Output(s): Publication ID accepted
@@ -40,6 +43,7 @@ public class OrderTest {
     }
 
     // TC04
+    // Technique: BVA
     // Test Objective: Verify publication ID is rejected below the minimum
     // Input(s): Publication ID = 0
     // Expected Output(s): Error message: "Invalid Publication ID"
@@ -50,6 +54,7 @@ public class OrderTest {
     }
 
     // TC05
+    // Technique: BVA
     // Test Objective: Verify delivery days are accepted at the minimum (1 day)
     // Input(s): Delivery Days = "MON"
     // Expected Output(s): Delivery days accepted
@@ -60,6 +65,7 @@ public class OrderTest {
     }
 
     // TC06
+    // Technique: BVA
     // Test Objective: Verify delivery days are accepted at the maximum (7 days)
     // Input(s): Delivery Days = "MON,TUE,WED,THU,FRI,SAT,SUN"
     // Expected Output(s): Delivery days accepted
@@ -70,6 +76,7 @@ public class OrderTest {
     }
 
     // TC07
+    // Technique: BVA
     // Test Objective: Verify delivery days are rejected when blank
     // Input(s): Delivery Days = ""
     // Expected Output(s): Error message: "Invalid Delivery Days"
@@ -80,6 +87,7 @@ public class OrderTest {
     }
 
     // TC08
+    // Technique: EP
     // Test Objective: Verify delivery days are rejected when a day is not valid
     // Input(s): Delivery Days = "MON,XYZ"
     // Expected Output(s): Error message: "Invalid Delivery Days"
@@ -90,6 +98,7 @@ public class OrderTest {
     }
 
     // TC09
+    // Technique: EP
     // Test Objective: Verify delivery days are rejected when a day is repeated
     // Input(s): Delivery Days = "MON,MON"
     // Expected Output(s): Error message: "Invalid Delivery Days"
@@ -100,6 +109,7 @@ public class OrderTest {
     }
 
     // TC10
+    // Technique: EP
     // Test Objective: Verify a publication not yet on the order is accepted
     // Input(s): Publication ID = 2; publications already on order = [1]
     // Expected Output(s): Publication accepted
@@ -110,6 +120,7 @@ public class OrderTest {
     }
 
     // TC11
+    // Technique: EP
     // Test Objective: Verify a publication already on the order is rejected
     // Input(s): Publication ID = 1; publications already on order = [1]
     // Expected Output(s): Error message: "Publication already on this order"
@@ -120,6 +131,7 @@ public class OrderTest {
     }
 
     // TC12
+    // Technique: EP (combined: one invalid field at a time)
     // Test Objective: Verify order is created when all details are valid
     // Input(s): 1, 2, MON,TUE,WED,THU,FRI, already on order = [1]
     // Expected Output(s): Order created successfully
@@ -130,6 +142,7 @@ public class OrderTest {
     }
 
     // TC13
+    // Technique: EP (combined: one invalid field at a time)
     // Test Objective: Verify order creation fails with invalid customer ID
     // Input(s): 0, 2, MON,TUE,WED,THU,FRI, already on order = [1]
     // Expected Output(s): Order not created
@@ -140,6 +153,7 @@ public class OrderTest {
     }
 
     // TC14
+    // Technique: EP (combined: one invalid field at a time)
     // Test Objective: Verify order creation fails with invalid publication ID
     // Input(s): 1, 0, MON,TUE,WED,THU,FRI, already on order = [1]
     // Expected Output(s): Order not created
@@ -150,6 +164,7 @@ public class OrderTest {
     }
 
     // TC15
+    // Technique: EP (combined: one invalid field at a time)
     // Test Objective: Verify order creation fails with invalid delivery days
     // Input(s): 1, 2, MON,XYZ, already on order = [1]
     // Expected Output(s): Order not created
@@ -160,6 +175,7 @@ public class OrderTest {
     }
 
     // TC16
+    // Technique: EP (combined: one invalid field at a time)
     // Test Objective: Verify order creation fails when the publication is already on the order
     // Input(s): 1, 1, MON,TUE,WED,THU,FRI, already on order = [1]
     // Expected Output(s): Order not created
@@ -170,6 +186,7 @@ public class OrderTest {
     }
 
     // TC17
+    // Technique: EP
     // Test Objective: Verify a weekday-only daily paper is due on a Friday
     // Input(s): Days = MON-FRI, frequency = daily, date = Fri 16/10/2026
     // Expected Output(s): Due (true)
@@ -180,6 +197,7 @@ public class OrderTest {
     }
 
     // TC18
+    // Technique: EP
     // Test Objective: Verify a weekday-only daily paper is not due on a Saturday
     // Input(s): Days = MON-FRI, frequency = daily, date = Sat 17/10/2026
     // Expected Output(s): Not due (false)
@@ -190,6 +208,7 @@ public class OrderTest {
     }
 
     // TC19
+    // Technique: EP
     // Test Objective: Verify a weekly magazine is due on its chosen day
     // Input(s): Days = SAT, frequency = weekly, date = Sat 10/10/2026
     // Expected Output(s): Due (true)
@@ -200,6 +219,7 @@ public class OrderTest {
     }
 
     // TC20
+    // Technique: EP
     // Test Objective: Verify a weekly magazine is not due on another day
     // Input(s): Days = SAT, frequency = weekly, date = Mon 05/10/2026
     // Expected Output(s): Not due (false)
@@ -210,6 +230,7 @@ public class OrderTest {
     }
 
     // TC21
+    // Technique: EP
     // Test Objective: Verify a monthly magazine is due on the first chosen day of the month
     // Input(s): Days = SAT, frequency = monthly, date = Sat 03/10/2026
     // Expected Output(s): Due (true)
@@ -220,6 +241,7 @@ public class OrderTest {
     }
 
     // TC22
+    // Technique: EP
     // Test Objective: Verify a monthly magazine is not due on a later chosen day in the month
     // Input(s): Days = SAT, frequency = monthly, date = Sat 10/10/2026
     // Expected Output(s): Not due (false)
@@ -230,6 +252,7 @@ public class OrderTest {
     }
 
     // TC23
+    // Technique: EP
     // Test Objective: Verify delivery days are rejected when they end with a comma
     // Input(s): Delivery Days = "MON,"
     // Expected Output(s): Error message: "Invalid Delivery Days"
@@ -240,6 +263,7 @@ public class OrderTest {
     }
 
     // TC24
+    // Technique: EP
     // Test Objective: Verify a publication is accepted when the customer has no publications on the order yet
     // Input(s): Publication ID = 1; publications already on order = [] (empty)
     // Expected Output(s): Publication accepted
@@ -250,6 +274,7 @@ public class OrderTest {
     }
 
     // TC25
+    // Technique: EP
     // Test Objective: Verify a monthly magazine with two chosen days is due only on the first chosen day of the month
     // Input(s): Days = MON,SAT, frequency = monthly, dates = Sat 03/10/2026 and Mon 05/10/2026
     // Expected Output(s): Sat 03/10/2026 due (true); Mon 05/10/2026 not due (false)
@@ -261,6 +286,7 @@ public class OrderTest {
     }
 
     // TC26
+    // Technique: BVA
     // Test Objective: Verify a customer name is accepted at the minimum length (1 character)
     // Input(s): Customer Name = "M"
     // Expected Output(s): Name accepted
@@ -271,6 +297,7 @@ public class OrderTest {
     }
 
     // TC27
+    // Technique: BVA
     // Test Objective: Verify a customer name is accepted at the maximum length (50 characters)
     // Input(s): Customer Name = 50 x "a"
     // Expected Output(s): Name accepted
@@ -281,6 +308,7 @@ public class OrderTest {
     }
 
     // TC28
+    // Technique: BVA
     // Test Objective: Verify a customer name is rejected above the maximum length (51 characters)
     // Input(s): Customer Name = 51 x "a"
     // Expected Output(s): Error message: "Invalid Customer Name"
@@ -291,6 +319,7 @@ public class OrderTest {
     }
 
     // TC29
+    // Technique: EP
     // Test Objective: Verify a customer name is rejected when it is only spaces
     // Input(s): Customer Name = "   "
     // Expected Output(s): Error message: "Invalid Customer Name"
@@ -300,9 +329,165 @@ public class OrderTest {
         assertFalse(o.verifyCustomerName("   "));
     }
 
+
+    // TC30
+    // Technique: BVA
+    // Test Objective: Verify customer ID is accepted at min+1
+    // Input(s): Customer ID = 2
+    // Expected Output(s): Customer ID accepted
+    @Test
+    void validCustomerIdMinPlusOne_TC30() {
+        Order o = new Order();
+        assertTrue(o.verifyCustomerId(2));
+    }
+
+    // TC31
+    // Technique: EP
+    // Test Objective: Verify a negative customer ID is rejected (invalid partition: below range)
+    // Input(s): Customer ID = -1
+    // Expected Output(s): Error message: "Invalid Customer ID"
+    @Test
+    void invalidCustomerIdNegative_TC31() {
+        Order o = new Order();
+        assertFalse(o.verifyCustomerId(-1));
+    }
+
+    // TC32
+    // Technique: EP
+    // Test Objective: Verify a large customer ID is accepted (valid partition: no upper limit)
+    // Input(s): Customer ID = 100000
+    // Expected Output(s): Customer ID accepted
+    @Test
+    void validCustomerIdLarge_TC32() {
+        Order o = new Order();
+        assertTrue(o.verifyCustomerId(100000));
+    }
+
+    // TC33
+    // Technique: BVA
+    // Test Objective: Verify publication ID is accepted at min+1
+    // Input(s): Publication ID = 2
+    // Expected Output(s): Publication ID accepted
+    @Test
+    void validPublicationIdMinPlusOne_TC33() {
+        Order o = new Order();
+        assertTrue(o.verifyPublicationId(2));
+    }
+
+    // TC34
+    // Technique: EP
+    // Test Objective: Verify a negative publication ID is rejected (invalid partition: below range)
+    // Input(s): Publication ID = -1
+    // Expected Output(s): Error message: "Invalid Publication ID"
+    @Test
+    void invalidPublicationIdNegative_TC34() {
+        Order o = new Order();
+        assertFalse(o.verifyPublicationId(-1));
+    }
+
+    // TC35
+    // Technique: BVA
+    // Test Objective: Verify delivery days are accepted at min+1 (2 days)
+    // Input(s): Delivery Days = "MON,TUE"
+    // Expected Output(s): Delivery days accepted
+    @Test
+    void validDeliveryDaysMinPlusOne_TC35() {
+        Order o = new Order();
+        assertTrue(o.verifyDeliveryDays("MON,TUE"));
+    }
+
+    // TC36
+    // Technique: BVA
+    // Test Objective: Verify delivery days are accepted at max-1 (6 days)
+    // Input(s): Delivery Days = "MON,TUE,WED,THU,FRI,SAT"
+    // Expected Output(s): Delivery days accepted
+    @Test
+    void validDeliveryDaysMaxMinusOne_TC36() {
+        Order o = new Order();
+        assertTrue(o.verifyDeliveryDays("MON,TUE,WED,THU,FRI,SAT"));
+    }
+
+    // TC37
+    // Technique: BVA
+    // Test Objective: Verify delivery days are rejected above the maximum (8 days)
+    // Input(s): Delivery Days = "MON,TUE,WED,THU,FRI,SAT,SUN,MON"
+    // Expected Output(s): Error message: "Invalid Delivery Days"
+    @Test
+    void invalidDeliveryDaysTooMany_TC37() {
+        Order o = new Order();
+        assertFalse(o.verifyDeliveryDays("MON,TUE,WED,THU,FRI,SAT,SUN,MON"));
+    }
+
+    // TC38
+    // Technique: EP
+    // Test Objective: Verify lowercase day names are rejected (invalid partition: wrong case)
+    // Input(s): Delivery Days = "mon,tue"
+    // Expected Output(s): Error message: "Invalid Delivery Days"
+    @Test
+    void invalidDeliveryDaysLowercase_TC38() {
+        Order o = new Order();
+        assertFalse(o.verifyDeliveryDays("mon,tue"));
+    }
+
+    // TC39
+    // Technique: EP
+    // Test Objective: Verify days separated by comma and space are rejected (invalid partition: wrong format)
+    // Input(s): Delivery Days = "MON, TUE"
+    // Expected Output(s): Error message: "Invalid Delivery Days"
+    @Test
+    void invalidDeliveryDaysSpaces_TC39() {
+        Order o = new Order();
+        assertFalse(o.verifyDeliveryDays("MON, TUE"));
+    }
+
+    // TC40
+    // Technique: BVA
+    // Test Objective: Verify customer name search is accepted at min+1 (2 characters)
+    // Input(s): Customer Name = "Al"
+    // Expected Output(s): Customer name accepted
+    @Test
+    void validCustomerNameMinPlusOne_TC40() {
+        Order o = new Order();
+        assertTrue(o.verifyCustomerName("Al"));
+    }
+
+    // TC41
+    // Technique: BVA
+    // Test Objective: Verify customer name search is accepted at max-1 (49 characters)
+    // Input(s): Customer Name = 49 x "a"
+    // Expected Output(s): Customer name accepted
+    @Test
+    void validCustomerNameMaxMinusOne_TC41() {
+        Order o = new Order();
+        assertTrue(o.verifyCustomerName("a".repeat(49)));
+    }
+
+    // TC42
+    // Technique: BVA
+    // Test Objective: Verify customer name search is rejected below the minimum (0 characters)
+    // Input(s): Customer Name = ""
+    // Expected Output(s): Error message: "Invalid Customer Name"
+    @Test
+    void invalidCustomerNameEmpty_TC42() {
+        Order o = new Order();
+        assertFalse(o.verifyCustomerName(""));
+    }
+
+    // TC43
+    // Technique: EP
+    // Test Objective: Verify a full name with surrounding spaces is accepted (valid partition: trimmed)
+    // Input(s): Customer Name = "  Aarush Prasad  "
+    // Expected Output(s): Customer name accepted
+    @Test
+    void validCustomerNameTrimmed_TC43() {
+        Order o = new Order();
+        assertTrue(o.verifyCustomerName("  Aarush Prasad  "));
+    }
+
     // ===== White-Box Tests (WB01 - WB03) =====
 
     // WB01
+    // Technique: White-box (branch / statement coverage)
     // Test Objective: Verify delivery days are rejected when null (covers the null check branch)
     // Input(s): Delivery Days = null
     // Expected Output(s): Error message: "Invalid Delivery Days"
@@ -313,6 +498,7 @@ public class OrderTest {
     }
 
     // WB02
+    // Technique: White-box (branch / statement coverage)
     // Test Objective: Verify a created order stores its details (covers the getter methods)
     // Input(s): 1, 2, MON,TUE,WED,THU,FRI, already on order = [1]
     // Expected Output(s): getCustomerId() = 1, getPublicationId() = 2, getDeliveryDays() = "MON,TUE,WED,THU,FRI"
@@ -326,6 +512,7 @@ public class OrderTest {
     }
 
     // WB03
+    // Technique: White-box (branch / statement coverage)
     // Test Objective: Verify a customer name is rejected when null (covers the null check branch)
     // Input(s): Customer Name = null
     // Expected Output(s): Error message: "Invalid Customer Name"

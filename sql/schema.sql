@@ -1,4 +1,4 @@
--- Newsagent Delivery System: tables for the 5 entities
+-- Newsagent Delivery System: tables for the 7 stored entities (Bill is calculated from orders)
 -- Run once in MySQL Workbench. Order and Delivery Docket are last because they link to the other tables.
 -- Then run sql/sample_data.sql for realistic test data.
 
@@ -31,6 +31,26 @@ CREATE TABLE IF NOT EXISTS PublicationTable
     CONSTRAINT chk_publication_frequency CHECK (frequency IN ('daily', 'weekly', 'monthly')),
     CONSTRAINT chk_publication_price CHECK (price > 0),
     CONSTRAINT chk_publication_stock CHECK (quantityInStock >= 0)
+);
+
+-- Delivery Person
+CREATE TABLE IF NOT EXISTS DeliveryPersonTable
+(
+    deliveryPersonId INT AUTO_INCREMENT PRIMARY KEY,
+    firstName VARCHAR(50) NOT NULL,
+    surname VARCHAR(50) NOT NULL,
+    phoneNumber VARCHAR(10) NOT NULL,
+    deliveryArea INT NOT NULL,
+    CONSTRAINT chk_person_area CHECK (deliveryArea BETWEEN 1 AND 24)
+);
+
+-- Newsagent (the shop's account details, printed on bills)
+CREATE TABLE IF NOT EXISTS NewsagentTable
+(
+    newsagentId INT AUTO_INCREMENT PRIMARY KEY,
+    shopName VARCHAR(50) NOT NULL,
+    address VARCHAR(150) NOT NULL,
+    phoneNumber VARCHAR(10) NOT NULL
 );
 
 -- Delivery Area

@@ -82,12 +82,13 @@ public class BillCLI {
         for (BillLine line : lines) {
             int deliveries = bill.countDeliveries(line.getDeliveryDays(), line.getFrequency(), year, month);
             double cost = bill.addLine(deliveries, line.getPrice());
-            System.out.println(String.format("%-26s %10d %10.2f %10.2f",
+            System.out.println(String.format(Locale.ENGLISH, "%-26s %10d %10.2f %10.2f",
                     line.getPublicationName(), deliveries, line.getPrice(), cost));
         }
 
         System.out.println("------------------------------------------------------------");
-        System.out.println(String.format("%-26s %32s", "TOTAL DUE", String.format("EUR %.2f", bill.getTotal())));
+        System.out.println(String.format("%-26s %32s", "TOTAL DUE",
+                String.format(Locale.ENGLISH, "EUR %.2f", bill.getTotal())));
     }
 
     // Reads a whole number; text such as "abc" becomes -1, which the verify methods reject

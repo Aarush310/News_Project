@@ -5,19 +5,14 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.util.Scanner;
 
-/**
- * MASTER CLI
- * Main menu for all Newsagent entities and extra features.
- */
 public class MasterCLI {
 
     public static void main(String[] args) {
 
-        // Keep System.in open when returning from other menus
         System.setIn(new FilterInputStream(System.in) {
             @Override
             public void close() throws IOException {
-                // do nothing
+                // Keep keyboard input open
             }
         });
 
@@ -32,11 +27,10 @@ public class MasterCLI {
             System.out.println("3. Publication Management");
             System.out.println("4. Delivery Area Management");
             System.out.println("5. Delivery Docket Management");
-            System.out.println("6. Extra Features");
-            System.out.println("7. Monthly Bills");
-            System.out.println("8. Delivery Persons");
-            System.out.println("9. Newsagent Account");
-            System.out.println("10. Exit");
+            System.out.println("6. Monthly Bills");
+            System.out.println("7. Delivery Persons");
+            System.out.println("8. Newsagent Account");
+            System.out.println("9. Exit");
 
             choice = readInt(scanner, "Enter your choice: ");
 
@@ -62,32 +56,28 @@ public class MasterCLI {
                     break;
 
                 case 6:
-                    ExtraFeaturesCLI.main(args);
-                    break;
-
-                case 7:
                     BillCLI.main(args);
                     break;
 
-                case 8:
+                case 7:
                     DeliveryPersonCLI.main(args);
                     break;
 
-                case 9:
+                case 8:
                     NewsagentCLI.main(args);
                     break;
 
-                case 10:
+                case 9:
                     System.out.println("Goodbye.");
                     break;
 
                 default:
                     System.out.println(
-                        "Invalid choice. Enter a number from 1 to 10."
+                        "Invalid choice. Enter a number from 1 to 9."
                     );
             }
 
-        } while (choice != 10);
+        } while (choice != 9);
     }
 
     private static int readInt(Scanner scanner, String prompt) {

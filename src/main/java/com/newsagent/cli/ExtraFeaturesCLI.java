@@ -48,8 +48,19 @@ public class ExtraFeaturesCLI {
                     break;
 
                 case 3:
-                    System.out.println("Publications with stock below 10:");
-                    dao.showLowStock(10);
+                    System.out.print("Enter low stock threshold: ");
+                    int threshold = readNumber(scanner);
+
+                    if (threshold > 0) {
+                        System.out.println(
+                            "Publications with stock below " + threshold + ":"
+                        );
+                        dao.showLowStock(threshold);
+                    } else {
+                        System.out.println(
+                            "Please enter a positive stock threshold."
+                        );
+                    }
                     break;
 
                 case 4:

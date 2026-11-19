@@ -180,4 +180,26 @@ public class BillTest {
         b.addLine(4, 2.50);
         assertEquals(104.00, b.getTotal(), 0.001);
     }
+
+    // ===== White-Box Tests (WB01 - WB02) =====
+
+    // WB01
+    // Test Objective: Verify a new bill starts at zero (covers the constructor and getTotal)
+    // Input(s): New Bill, no lines
+    // Expected Output(s): Total 0.00
+    @Test
+    void newBillIsZero_WB01() {
+        Bill b = new Bill();
+        assertEquals(0.00, b.getTotal(), 0.001);
+    }
+
+    // WB02
+    // Test Objective: Verify a December bill stops at the 31st (covers the last day of the year in the loop)
+    // Input(s): Days = MON-FRI, frequency = daily, December 2026
+    // Expected Output(s): 23 deliveries
+    @Test
+    void decemberLoopEndsAtYearEnd_WB02() {
+        Bill b = new Bill();
+        assertEquals(23, b.countDeliveries("MON,TUE,WED,THU,FRI", "daily", 2026, 12));
+    }
 }

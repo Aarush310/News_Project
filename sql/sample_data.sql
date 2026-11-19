@@ -4,6 +4,19 @@
 
 USE newsagentdb;
 
+-- Newsagent account
+INSERT IGNORE INTO NewsagentTable (newsagentId, shopName, address, phoneNumber) VALUES
+(1, 'Athlone News & Deli', '12 Church Street, Athlone, Co. Westmeath', '0906471234');
+
+-- Delivery Persons (staff numbers 101-106, one per delivery area)
+INSERT IGNORE INTO DeliveryPersonTable (deliveryPersonId, firstName, surname, phoneNumber, deliveryArea) VALUES
+(101, 'Sean',   'Walsh',    '0861112201', 1),
+(102, 'Aoife',  'Brennan',  '0861112202', 2),
+(103, 'Ciaran', 'Daly',     '0861112203', 3),
+(104, 'Niamh',  'Gallagher','0861112204', 4),
+(105, 'Darragh','Kenny',    '0861112205', 5),
+(106, 'Grainne','Moran',    '0861112206', 6);
+
 -- Delivery Areas (deliveryPersonId = staff number of the person doing the round)
 INSERT IGNORE INTO DeliveryAreaTable (areaNumber, areaName, deliveryPersonId) VALUES
 (1, 'Athlone Town Centre', 101),

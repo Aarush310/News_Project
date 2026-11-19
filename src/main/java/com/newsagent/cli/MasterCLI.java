@@ -34,7 +34,9 @@ public class MasterCLI {
             System.out.println("5. Delivery Docket Management");
             System.out.println("6. Extra Features");
             System.out.println("7. Monthly Bills");
-            System.out.println("8. Exit");
+            System.out.println("8. Delivery Persons");
+            System.out.println("9. Newsagent Account");
+            System.out.println("10. Exit");
 
             choice = readInt(scanner, "Enter your choice: ");
 
@@ -68,16 +70,24 @@ public class MasterCLI {
                     break;
 
                 case 8:
+                    DeliveryPersonCLI.main(args);
+                    break;
+
+                case 9:
+                    NewsagentCLI.main(args);
+                    break;
+
+                case 10:
                     System.out.println("Goodbye.");
                     break;
 
                 default:
                     System.out.println(
-                        "Invalid choice. Enter a number from 1 to 8."
+                        "Invalid choice. Enter a number from 1 to 10."
                     );
             }
 
-        } while (choice != 8);
+        } while (choice != 10);
     }
 
     private static int readInt(Scanner scanner, String prompt) {

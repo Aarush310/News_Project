@@ -3,6 +3,7 @@ package com.newsagent.cli;
 
 import com.newsagent.model.DeliveryArea;
 import com.newsagent.dao.DeliveryAreaDAO;
+import com.newsagent.dao.DeliveryPersonDAO;
 import com.newsagent.db.DatabaseConnection;
 
 import java.sql.Connection;
@@ -57,6 +58,9 @@ public class DeliveryAreaCLI {
                                 System.out.println("Error: Invalid Area Name");
                             } else if (!area.verifyDeliveryPersonId(personId)) {
                                 System.out.println("Error: Invalid Delivery Person ID");
+                            } else if (new DeliveryPersonDAO().findDeliveryPersonById(personId) == null) {
+                                // Rule that needs the database: the delivery person must exist
+                                System.out.println("Error: Delivery Person " + personId + " not found.");
                             } else if (dao.findDeliveryArea(number) != null) {
                                 // Rule that needs the database: area numbers are unique
                                 System.out.println("Error: Delivery Area " + number + " already exists.");
@@ -137,6 +141,9 @@ public class DeliveryAreaCLI {
                                 System.out.println("Error: Invalid Area Name");
                             } else if (!area.verifyDeliveryPersonId(personId)) {
                                 System.out.println("Error: Invalid Delivery Person ID");
+                            } else if (new DeliveryPersonDAO().findDeliveryPersonById(personId) == null) {
+                                // Rule that needs the database: the delivery person must exist
+                                System.out.println("Error: Delivery Person " + personId + " not found.");
                             } else {
                                 area.createDeliveryArea(number, name, personId);
 

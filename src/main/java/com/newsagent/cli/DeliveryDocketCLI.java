@@ -23,7 +23,8 @@ public class DeliveryDocketCLI {
             System.out.println("2. Find Delivery Docket By ID");
             System.out.println("3. Update Delivery Docket");
             System.out.println("4. Delete Delivery Docket");
-            System.out.println("5. Exit");
+            System.out.println("5. List All Delivery Dockets");
+            System.out.println("6. Exit");
 
             choice = readInt(scanner, "Enter your choice: ");
 
@@ -32,10 +33,31 @@ public class DeliveryDocketCLI {
                 case 2: findDocket(scanner, docketDAO); break;
                 case 3: updateDocket(scanner, docketDAO); break;
                 case 4: deleteDocket(scanner, docketDAO); break;
-                case 5: System.out.println("Goodbye."); break;
-                default: System.out.println("Invalid choice. Enter a number from 1 to 5.");
+                case 5: listDockets(docketDAO); break;
+                case 6: System.out.println("Goodbye."); break;
+                default: System.out.println("Invalid choice. Enter a number from 1 to 6.");
             }
-        } while (choice != 5);
+        } while (choice != 6);
+    }
+
+    /**
+     * LIST ALL DOCKETS
+     */
+    private static void listDockets(DeliveryDocketDAO docketDAO) {
+
+        List<DeliveryDocket> dockets = docketDAO.getAllDockets();
+
+        if (dockets.isEmpty()) {
+            System.out.println("No delivery dockets found.");
+            return;
+        }
+
+        System.out.println("=== All Delivery Dockets ===");
+        for (DeliveryDocket docket : dockets) {
+            System.out.println(docket);
+            System.out.println("------------------");
+        }
+        System.out.println(dockets.size() + " docket(s).");
     }
 
     /**

@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  * Saves publications to the MySQL "PublicationTable" table.
@@ -95,6 +96,57 @@ public class PublicationDAO {
 			System.out.println("Database error: " + e.getMessage());
 		}
 		return false;
+	}
+
+	/**
+	 * LIST ALL PUBLICATIONS
+	 */
+	public ArrayList<Publication> getAllPublications() {
+		String sql = "SELECT * FROM PublicationTable ORDER BY publicationId";
+		ArrayList<Publication> publications = new ArrayList<>();
+
+		try (Connection conn = DatabaseConnection.getConnection();
+				PreparedStatement ps = conn.prepareStatement(sql);
+				ResultSet rs = ps.executeQuery()) {
+
+			while (rs.next()) {
+				Publication p = new Publication();
+				p.createPublication(
+						rs.getString("name"),
+						rs.getString("type"),
+						rs.getString("frequency"),
+						rs.getDouble("price"),
+						rs.getInt("quantityInStock"));
+				p.setPublicationId(rs.getInt("publicationId"));
+				publications.add(p);
+			}
+		} catch (SQLException e) {
+			System.out.println("Database error: " + e.getMessage());
+		}
+		return publications;
+	}
+
+	/**
+	 * FIND THE ID OF THE PUBLICATION WITH THIS NAME (used to stop duplicate names)
+	 * Returns the ID, or -1 if no publication has that name.
+	 */
+	public int findPublicationIdByName(String name) {
+		String sql = "SELECT publicationId FROM PublicationTable WHERE name = ?";
+
+		try (Connection conn = DatabaseConnection.getConnection();
+				PreparedStatement ps = conn.prepareStatement(sql)) {
+
+			ps.setString(1, name.trim());
+
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					return rs.getInt("publicationId");
+				}
+			}
+		} catch (SQLException e) {
+			System.out.println("Database error: " + e.getMessage());
+		}
+		return -1;
 	}
 
 	/**

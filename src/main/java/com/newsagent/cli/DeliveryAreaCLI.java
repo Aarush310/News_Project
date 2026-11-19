@@ -7,6 +7,7 @@ import com.newsagent.db.DatabaseConnection;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DeliveryAreaCLI {
@@ -24,10 +25,11 @@ public class DeliveryAreaCLI {
 
                 System.out.println("\n===== DELIVERY AREA MENU =====");
                 System.out.println("1. Add Delivery Area");
-                System.out.println("2. Find Delivery Area by ID");
+                System.out.println("2. Find Delivery Area By ID");
                 System.out.println("3. Update Delivery Area");
                 System.out.println("4. Delete Delivery Area");
-                System.out.println("5. Exit");
+                System.out.println("5. List All Delivery Areas");
+                System.out.println("6. Exit");
                 System.out.print("Enter your choice: ");
 
                 String choice = scanner.nextLine();
@@ -36,51 +38,56 @@ public class DeliveryAreaCLI {
 
                     case "1":
                         try {
-                            System.out.print("Enter Area Number (1-24): ");
+                            System.out.print("Area Number (1-24): ");
                             int number = Integer.parseInt(
                                 scanner.nextLine().trim());
 
-                            System.out.print("Enter Area Name: ");
+                            System.out.print("Area Name: ");
                             String name = scanner.nextLine();
 
-                            System.out.print("Enter Delivery Person ID: ");
+                            System.out.print("Delivery Person ID: ");
                             int personId = Integer.parseInt(
                                 scanner.nextLine().trim());
 
                             DeliveryArea area = new DeliveryArea();
 
                             if (!area.verifyAreaNumber(number)) {
-                                System.out.println("Invalid Area Number");
+                                System.out.println("Error: Invalid Area Number");
                             } else if (!area.verifyAreaName(name)) {
-                                System.out.println("Invalid Area Name");
+                                System.out.println("Error: Invalid Area Name");
                             } else if (!area.verifyDeliveryPersonId(personId)) {
-                                System.out.println("Invalid Delivery Person ID");
+                                System.out.println("Error: Invalid Delivery Person ID");
+                            } else if (dao.findDeliveryArea(number) != null) {
+                                // Rule that needs the database: area numbers are unique
+                                System.out.println("Error: Delivery Area " + number + " already exists.");
+                                System.out.println("Delivery Area not created.");
                             } else {
                                 area.createDeliveryArea(number, name, personId);
 
                                 if (dao.addDeliveryArea(area)) {
                                     System.out.println(
-                                        "Delivery Area created successfully!");
+                                        "Delivery Area saved successfully.");
+                                } else {
+                                    System.out.println("Failed to save delivery area.");
                                 }
                             }
 
                         } catch (NumberFormatException e) {
-                            System.out.println("Please enter a valid number.");
+                            System.out.println("Error: Enter a whole number.");
                         } catch (SQLException e) {
                             System.out.println(
-                                "Could not save Delivery Area: " +
-                                e.getMessage());
+                                "Database error: " + e.getMessage());
                         }
                         break;
 
                     case "2":
                         try {
-                            System.out.print("Enter Area Number: ");
+                            System.out.print("Area Number (1-24): ");
                             int number = Integer.parseInt(
                                 scanner.nextLine().trim());
 
                             if (number < 1 || number > 24) {
-                                System.out.println("Invalid Area Number");
+                                System.out.println("Error: Invalid Area Number");
                                 break;
                             }
 
@@ -88,13 +95,13 @@ public class DeliveryAreaCLI {
                                 dao.findDeliveryArea(number);
 
                             if (area == null) {
-                                System.out.println("Delivery Area not found.");
+                                System.out.println("Error: Delivery Area not found.");
                             } else {
                                 System.out.println("\n" + area);
                             }
 
                         } catch (NumberFormatException e) {
-                            System.out.println("Please enter a valid number.");
+                            System.out.println("Error: Enter a whole number.");
                         } catch (SQLException e) {
                             System.out.println(
                                 "Database error: " + e.getMessage());
@@ -103,7 +110,7 @@ public class DeliveryAreaCLI {
 
                     case "3":
                         try {
-                            System.out.print("Enter Area Number: ");
+                            System.out.print("Area Number (1-24): ");
                             int number = Integer.parseInt(
                                 scanner.nextLine().trim());
 
@@ -111,38 +118,38 @@ public class DeliveryAreaCLI {
                                 dao.findDeliveryArea(number);
 
                             if (current == null) {
-                                System.out.println("Delivery Area not found.");
+                                System.out.println("Error: Delivery Area not found.");
                                 break;
                             }
 
                             System.out.println("\nCurrent details:\n" + current);
 
-                            System.out.print("Enter New Area Name: ");
+                            System.out.print("New Area Name: ");
                             String name = scanner.nextLine();
 
-                            System.out.print("Enter New Delivery Person ID: ");
+                            System.out.print("New Delivery Person ID: ");
                             int personId = Integer.parseInt(
                                 scanner.nextLine().trim());
 
                             DeliveryArea area = new DeliveryArea();
 
                             if (!area.verifyAreaName(name)) {
-                                System.out.println("Invalid Area Name");
+                                System.out.println("Error: Invalid Area Name");
                             } else if (!area.verifyDeliveryPersonId(personId)) {
-                                System.out.println("Invalid Delivery Person ID");
+                                System.out.println("Error: Invalid Delivery Person ID");
                             } else {
                                 area.createDeliveryArea(number, name, personId);
 
                                 if (dao.updateDeliveryArea(area)) {
                                     System.out.println(
-                                        "Delivery Area updated successfully!");
+                                        "Delivery Area updated successfully.");
                                 } else {
                                     System.out.println("Delivery Area not updated.");
                                 }
                             }
 
                         } catch (NumberFormatException e) {
-                            System.out.println("Please enter a valid number.");
+                            System.out.println("Error: Enter a whole number.");
                         } catch (SQLException e) {
                             System.out.println(
                                 "Database error: " + e.getMessage());
@@ -151,12 +158,12 @@ public class DeliveryAreaCLI {
 
                     case "4":
                         try {
-                            System.out.print("Enter Area Number: ");
+                            System.out.print("Area Number (1-24): ");
                             int number = Integer.parseInt(
                                 scanner.nextLine().trim());
 
                             if (dao.findDeliveryArea(number) == null) {
-                                System.out.println("Delivery Area not found.");
+                                System.out.println("Error: Delivery Area not found.");
                                 break;
                             }
 
@@ -168,13 +175,13 @@ public class DeliveryAreaCLI {
                                     " customer(s) are in this area.");
                             } else if (dao.deleteDeliveryArea(number)) {
                                 System.out.println(
-                                    "Delivery Area deleted successfully!");
+                                    "Delivery Area deleted successfully.");
                             } else {
                                 System.out.println("Delivery Area not deleted.");
                             }
 
                         } catch (NumberFormatException e) {
-                            System.out.println("Please enter a valid number.");
+                            System.out.println("Error: Enter a whole number.");
                         } catch (SQLException e) {
                             System.out.println(
                                 "Database error: " + e.getMessage());
@@ -182,12 +189,33 @@ public class DeliveryAreaCLI {
                         break;
 
                     case "5":
-                        System.out.println("Goodbye!");
+                        try {
+                            ArrayList<DeliveryArea> areas = dao.getAllDeliveryAreas();
+
+                            if (areas.isEmpty()) {
+                                System.out.println("No delivery areas found.");
+                            } else {
+                                System.out.println("=== All Delivery Areas ===");
+                                for (DeliveryArea a : areas) {
+                                    System.out.println(a);
+                                    System.out.println("------------------");
+                                }
+                                System.out.println(areas.size() + " delivery area(s).");
+                            }
+
+                        } catch (SQLException e) {
+                            System.out.println(
+                                "Database error: " + e.getMessage());
+                        }
+                        break;
+
+                    case "6":
+                        System.out.println("Goodbye.");
                         running = false;
                         break;
 
                     default:
-                        System.out.println("Invalid choice. Try again.");
+                        System.out.println("Invalid choice. Enter a number from 1 to 6.");
                 }
             }
 

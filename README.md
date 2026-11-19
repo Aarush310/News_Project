@@ -63,3 +63,20 @@ If VS Code shows old errors after pulling: Ctrl+Shift+P → `Java: Clean Java La
 ## GitHub
 
 Work on a branch and open a pull request. Commit in TDD order so the history shows it: skeleton → black-box tests (failing) → product class → white-box tests → DAO → CLI → SQL table. Start each message with the story number, e.g. `US9: add Publication product skeleton`.
+
+## Main Menu
+
+The Newsagent application provides the following options:
+
+1. Customer Management
+2. Order Management
+3. Publication Management
+4. Delivery Area Management
+5. Delivery Docket Management
+6. Monthly Bills
+7. Delivery Persons
+8. Newsagent Account
+9. Exit
+
+The main menu is controlled by MasterCLI.java.
+Each option opens the corresponding management menu.

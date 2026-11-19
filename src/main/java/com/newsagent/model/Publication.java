@@ -14,8 +14,8 @@ public class Publication {
 
 	public boolean verifyName(String name) {
 		return name != null
-				&& name.length() >= MIN_NAME_LENGTH
-				&& name.length() <= MAX_NAME_LENGTH;
+				&& name.trim().length() >= MIN_NAME_LENGTH
+				&& name.trim().length() <= MAX_NAME_LENGTH;
 	}
 
 	public boolean verifyType(String type) {

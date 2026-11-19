@@ -4,6 +4,8 @@ public class Customer {
 
     private static final int MIN_AREA = 1;
     private static final int MAX_AREA = 24;
+    private static final int MAX_NAME = 50;
+    private static final int MAX_ADDRESS = 150;
 
     private int customerId;
     private String firstName;
@@ -30,7 +32,8 @@ public class Customer {
      */
     public boolean verifyFirstName(String firstName) {
         return firstName != null
-                && !firstName.trim().isEmpty();
+                && !firstName.trim().isEmpty()
+                && firstName.trim().length() <= MAX_NAME;
     }
 
     /**
@@ -39,7 +42,8 @@ public class Customer {
      */
     public boolean verifySurname(String surname) {
         return surname != null
-                && !surname.trim().isEmpty();
+                && !surname.trim().isEmpty()
+                && surname.trim().length() <= MAX_NAME;
     }
 
     /**
@@ -48,7 +52,8 @@ public class Customer {
      */
     public boolean verifyAddress(String address) {
         return address != null
-                && !address.trim().isEmpty();
+                && !address.trim().isEmpty()
+                && address.trim().length() <= MAX_ADDRESS;
     }
 
     /**

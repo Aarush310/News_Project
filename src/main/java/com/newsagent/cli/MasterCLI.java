@@ -33,7 +33,8 @@ public class MasterCLI {
             System.out.println("4. Delivery Area Management");
             System.out.println("5. Delivery Docket Management");
             System.out.println("6. Extra Features");
-            System.out.println("7. Exit");
+            System.out.println("7. Monthly Bills");
+            System.out.println("8. Exit");
 
             choice = readInt(scanner, "Enter your choice: ");
 
@@ -63,16 +64,20 @@ public class MasterCLI {
                     break;
 
                 case 7:
+                    BillCLI.main(args);
+                    break;
+
+                case 8:
                     System.out.println("Goodbye.");
                     break;
 
                 default:
                     System.out.println(
-                        "Invalid choice. Enter a number from 1 to 7."
+                        "Invalid choice. Enter a number from 1 to 8."
                     );
             }
 
-        } while (choice != 7);
+        } while (choice != 8);
     }
 
     private static int readInt(Scanner scanner, String prompt) {

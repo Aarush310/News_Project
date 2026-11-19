@@ -68,6 +68,14 @@ public class Bill {
         return line;
     }
 
+    /**
+     * True when what the user typed is a customer ID (whole number)
+     * rather than a name, e.g. "12" is an ID, "Kelly" is a name.
+     */
+    public boolean isCustomerId(String input) {
+        throw new UnsupportedOperationException("No Product Written Yet");
+    }
+
     public double getTotal() {
         return total;
     }

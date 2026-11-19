@@ -30,6 +30,10 @@ public class Bill {
         throw new UnsupportedOperationException("No Product Written Yet");
     }
 
+    public boolean isCustomerId(String input) {
+        throw new UnsupportedOperationException("No Product Written Yet");
+    }
+
     public double getTotal() {
         throw new UnsupportedOperationException("No Product Written Yet");
     }

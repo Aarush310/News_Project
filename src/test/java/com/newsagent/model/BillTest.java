@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 public class BillTest {
 
-    // ===== Black-Box Tests (TC01 - TC17) =====
+    // ===== Black-Box Tests (TC01 - TC22) =====
 
     // TC01
     // Test Objective: Verify month is accepted at the minimum
@@ -181,7 +181,57 @@ public class BillTest {
         assertEquals(104.00, b.getTotal(), 0.001);
     }
 
-    // ===== White-Box Tests (WB01 - WB02) =====
+    // TC18
+    // Test Objective: Verify a one-digit number is read as a customer ID
+    // Input(s): Input = "1"
+    // Expected Output(s): Customer ID (true)
+    @Test
+    void oneDigitIsId_TC18() {
+        Bill b = new Bill();
+        assertTrue(b.isCustomerId("1"));
+    }
+
+    // TC19
+    // Test Objective: Verify a number with spaces around it is read as a customer ID
+    // Input(s): Input = " 12 "
+    // Expected Output(s): Customer ID (true)
+    @Test
+    void numberWithSpacesIsId_TC19() {
+        Bill b = new Bill();
+        assertTrue(b.isCustomerId(" 12 "));
+    }
+
+    // TC20
+    // Test Objective: Verify a surname is read as a name, not an ID
+    // Input(s): Input = "Kelly"
+    // Expected Output(s): Name (false)
+    @Test
+    void surnameIsName_TC20() {
+        Bill b = new Bill();
+        assertFalse(b.isCustomerId("Kelly"));
+    }
+
+    // TC21
+    // Test Objective: Verify letters mixed with digits are read as a name, not an ID
+    // Input(s): Input = "12a"
+    // Expected Output(s): Name (false)
+    @Test
+    void mixedIsName_TC21() {
+        Bill b = new Bill();
+        assertFalse(b.isCustomerId("12a"));
+    }
+
+    // TC22
+    // Test Objective: Verify blank input is not a customer ID
+    // Input(s): Input = ""
+    // Expected Output(s): Not an ID (false)
+    @Test
+    void blankIsNotId_TC22() {
+        Bill b = new Bill();
+        assertFalse(b.isCustomerId(""));
+    }
+
+    // ===== White-Box Tests (WB01 - WB03) =====
 
     // WB01
     // Test Objective: Verify a new bill starts at zero (covers the constructor and getTotal)
@@ -201,5 +251,15 @@ public class BillTest {
     void decemberLoopEndsAtYearEnd_WB02() {
         Bill b = new Bill();
         assertEquals(23, b.countDeliveries("MON,TUE,WED,THU,FRI", "daily", 2026, 12));
+    }
+
+    // WB03
+    // Test Objective: Verify null input is not a customer ID (covers the null check branch)
+    // Input(s): Input = null
+    // Expected Output(s): Not an ID (false)
+    @Test
+    void nullIsNotId_WB03() {
+        Bill b = new Bill();
+        assertFalse(b.isCustomerId(null));
     }
 }

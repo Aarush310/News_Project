@@ -73,7 +73,10 @@ public class Bill {
      * rather than a name, e.g. "12" is an ID, "Kelly" is a name.
      */
     public boolean isCustomerId(String input) {
-        throw new UnsupportedOperationException("No Product Written Yet");
+        if (input == null) {
+            return false;
+        }
+        return input.trim().matches("\\d{1,9}");
     }
 
     public double getTotal() {

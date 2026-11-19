@@ -10,18 +10,20 @@ Architecture, as on the lecturer's board: `XxxCLI` (menu) → `Xxx` (rules) → 
 | 4 | Delivery Area | DeliveryArea, DeliveryAreaCLI, DeliveryAreaDAO | DeliveryAreaTable |
 | - | Delivery Docket | DeliveryDocket, DeliveryDocketCLI, DeliveryDocketDAO | DeliveryDocketTable |
 | - | Bill | Bill, BillLine, BillCLI, BillDAO | (calculated from OrderTable and PublicationTable) |
+| - | Delivery Person | DeliveryPerson, DeliveryPersonCLI, DeliveryPersonDAO | DeliveryPersonTable |
+| - | Newsagent | Newsagent, NewsagentCLI, NewsagentDAO | NewsagentTable |
 
-`MasterCLI` is the main menu: 1. Customers, 2. Orders, 3. Publications, 4. Delivery Areas, 5. Delivery Dockets, 6. Extra Features, 7. Monthly Bills, 8. Exit. Each entity menu has Add, Find By ID, Update, Delete and List All, and its Exit comes back to the main menu.
+`MasterCLI` is the main menu: 1. Customers, 2. Orders, 3. Publications, 4. Delivery Areas, 5. Delivery Dockets, 6. Extra Features, 7. Monthly Bills, 8. Delivery Persons, 9. Newsagent Account, 10. Exit. Each entity menu has Add, Find By ID, Update, Delete and List All, and its Exit comes back to the main menu.
 
-All six entities use one database (`newsagentdb`) and one shared `DatabaseConnection`.
+All eight entities use one database (`newsagentdb`) and one shared `DatabaseConnection`.
 
 ## Project structure
 
 ```
-sql/schema.sql                         creates newsagentdb and all 5 tables (run once)
+sql/schema.sql                         creates newsagentdb and all 7 tables (run once)
 sql/sample_data.sql                    realistic test data: areas, customers, publications, orders, dockets
 src/main/java/com/newsagent/
-    model/   Customer, Order, Publication, DeliveryArea, DeliveryDocket, Bill  (rules)
+    model/   Customer, Order, Publication, DeliveryArea, DeliveryDocket, Bill, DeliveryPerson, Newsagent
     dao/     CustomerDAO, OrderDAO, PublicationDAO, ...      (SQL)
     cli/     CustomerCLI, OrderCLI, PublicationCLI, ...      (menus, run these)
     db/      DatabaseConnection                              (shared connection)
@@ -52,9 +54,10 @@ If VS Code shows old errors after pulling: Ctrl+Shift+P → `Java: Clean Java La
 
 | Requirement | Where to show it |
 | --- | --- |
-| 100% equivalence partitioning and boundary value analysis | Run all tests in the Testing panel: 215 JUnit tests pass. Coverage per rule: `docs/Test Design - EP and BVA.xlsx` (one EP-BVA sheet per entity). |
+| 100% equivalence partitioning and boundary value analysis | Run all tests in the Testing panel: 280 JUnit tests pass. Coverage per rule: `docs/Test Design - EP and BVA.xlsx` (one EP-BVA sheet per entity). |
 | Show order IDs by your name (two tables connected) | `MasterCLI` → 2. Order Management → 3. Find Orders By Customer Name, type your name. In Workbench: run `sql/orders_by_customer_name.sql` (`CustomerTable JOIN OrderTable`). |
 | SDLC justification | `docs/SDLC Justification.docx` (Scrum, compared with Waterfall, V-Model, Iterative, Incremental, Spiral). |
+| UAT (user acceptance tests) | `docs/Test Design - EP and BVA.xlsx`, UAT sheet: 33 tests run end to end through MasterCLI against MySQL, all pass. |
 | User stories and test design | `docs/User Stories.xlsx` (US1-US32 with acceptance criteria) and `docs/Test Design - EP and BVA.xlsx`. |
 
 ## GitHub

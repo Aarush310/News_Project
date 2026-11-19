@@ -52,7 +52,7 @@ If VS Code shows old errors after pulling: Ctrl+Shift+P → `Java: Clean Java La
 
 | Requirement | Where to show it |
 | --- | --- |
-| 100% equivalence partitioning and boundary value analysis | Run all tests in the Testing panel: 180 JUnit tests pass. Coverage per rule: `docs/Test Design - EP and BVA.xlsx` (one EP-BVA sheet per entity). |
+| 100% equivalence partitioning and boundary value analysis | Run all tests in the Testing panel: 215 JUnit tests pass. Coverage per rule: `docs/Test Design - EP and BVA.xlsx` (one EP-BVA sheet per entity). |
 | Show order IDs by your name (two tables connected) | `MasterCLI` → 2. Order Management → 3. Find Orders By Customer Name, type your name. In Workbench: run `sql/orders_by_customer_name.sql` (`CustomerTable JOIN OrderTable`). |
 | SDLC justification | `docs/SDLC Justification.docx` (Scrum, compared with Waterfall, V-Model, Iterative, Incremental, Spiral). |
 | User stories and test design | `docs/User Stories.xlsx` (US1-US32 with acceptance criteria) and `docs/Test Design - EP and BVA.xlsx`. |

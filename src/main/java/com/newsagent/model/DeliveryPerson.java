@@ -4,6 +4,8 @@ public class DeliveryPerson {
     private static final int MIN_AREA = 1;
     private static final int MAX_AREA = 24;
     private static final int MAX_NAME = 50;
+    // Letters only, plus apostrophe, hyphen and space (e.g. O'Brien, Mary-Anne, De Burca)
+    private static final String NAME_PATTERN = "[A-Za-z][A-Za-z' -]*";
 
     private int deliveryPersonId;
     private String firstName;
@@ -21,7 +23,8 @@ public class DeliveryPerson {
     public boolean verifyFirstName(String firstName) {
         return firstName != null
                 && !firstName.trim().isEmpty()
-                && firstName.trim().length() <= MAX_NAME;
+                && firstName.trim().length() <= MAX_NAME
+                && firstName.trim().matches(NAME_PATTERN);
     }
 
     /**
@@ -31,7 +34,8 @@ public class DeliveryPerson {
     public boolean verifySurname(String surname) {
         return surname != null
                 && !surname.trim().isEmpty()
-                && surname.trim().length() <= MAX_NAME;
+                && surname.trim().length() <= MAX_NAME
+                && surname.trim().matches(NAME_PATTERN);
     }
 
     /**

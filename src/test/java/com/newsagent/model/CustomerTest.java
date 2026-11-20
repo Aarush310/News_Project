@@ -504,6 +504,54 @@ public class CustomerTest {
         assertFalse(c.verifyDeliveryArea(-1));
     }
 
+    // ===== Name Character Tests (TC46 - TC49) =====
+
+    // TC46
+    // Technique: Equivalence Partitioning (invalid partition: digits)
+    // Test Objective: Verify a first name made of digits is rejected
+    // Input(s): First Name = "23232"
+    // Expected Output(s): Error message: "Invalid First Name"
+    @Test
+    void invalidFirstNameDigits_TC46() {
+        Customer c = new Customer();
+        assertFalse(c.verifyFirstName("23232"));
+    }
+
+    // TC47
+    // Technique: Equivalence Partitioning (invalid partition: letters mixed with digits)
+    // Test Objective: Verify a surname containing a digit is rejected
+    // Input(s): Surname = "Sm1th"
+    // Expected Output(s): Error message: "Invalid Surname"
+    @Test
+    void invalidSurnameDigits_TC47() {
+        Customer c = new Customer();
+        assertFalse(c.verifySurname("Sm1th"));
+    }
+
+    // TC48
+    // Technique: Equivalence Partitioning (valid partition: apostrophe, hyphen, space)
+    // Test Objective: Verify real names with an apostrophe, hyphen or space are accepted
+    // Input(s): First Name = "Mary-Anne", Surname = "O'Brien", Surname = "De Burca"
+    // Expected Output(s): All accepted
+    @Test
+    void validNamesPunctuation_TC48() {
+        Customer c = new Customer();
+        assertTrue(c.verifyFirstName("Mary-Anne"));
+        assertTrue(c.verifySurname("O'Brien"));
+        assertTrue(c.verifySurname("De Burca"));
+    }
+
+    // TC49
+    // Technique: Equivalence Partitioning (invalid partition: symbols)
+    // Test Objective: Verify a first name with a symbol such as @ is rejected
+    // Input(s): First Name = "J@hn"
+    // Expected Output(s): Error message: "Invalid First Name"
+    @Test
+    void invalidFirstNameSymbol_TC49() {
+        Customer c = new Customer();
+        assertFalse(c.verifyFirstName("J@hn"));
+    }
+
     // ===== White-Box Tests (WB01 - WB02) =====
 
     // WB01

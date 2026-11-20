@@ -12,6 +12,9 @@ import java.util.Scanner;
 
 public class OrderCLI {
 
+    // Used only to check input rules while the user types
+    private static final Order RULES = new Order();
+
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
@@ -53,7 +56,7 @@ public class OrderCLI {
 
         System.out.println("=== Create New Order ===");
 
-        int customerId = readInt(scanner, "Customer ID: ");
+        int customerId = InputHelper.readInt(scanner, "Customer ID: ", RULES::verifyCustomerId, "Invalid Customer ID");
 
         // Look the customer up so an order can only be made for a real customer
         Customer customer = new CustomerDAO().findCustomerById(customerId);
@@ -64,7 +67,7 @@ public class OrderCLI {
         }
         System.out.println("Customer: " + customer.getFirstName() + " " + customer.getSurname());
 
-        int publicationId = readInt(scanner, "Publication ID: ");
+        int publicationId = InputHelper.readInt(scanner, "Publication ID: ", RULES::verifyPublicationId, "Invalid Publication ID");
 
         // Look the publication up so only a real publication can be ordered
         Publication publication = new PublicationDAO().findPublicationById(publicationId);
@@ -75,8 +78,9 @@ public class OrderCLI {
         }
         System.out.println("Publication: " + publication.getName());
 
-        System.out.print("Delivery Days (e.g. MON,TUE,WED,THU,FRI): ");
-        String deliveryDays = scanner.nextLine().trim().toUpperCase().replace(" ", "");
+        String deliveryDays = InputHelper.readString(scanner, "Delivery Days (e.g. MON,TUE,WED,THU,FRI): ",
+                d -> RULES.verifyDeliveryDays(d.toUpperCase().replace(" ", "")),
+                "Invalid Delivery Days").toUpperCase().replace(" ", "");
 
         Order order = new Order();
         int[] publicationsOnOrder = orderDAO.getPublicationIdsForCustomer(customerId);
@@ -130,8 +134,8 @@ public class OrderCLI {
      */
     private static void findOrdersByCustomerName(Scanner scanner, OrderDAO orderDAO) {
 
-        System.out.print("Customer name (first name, surname or both): ");
-        String name = scanner.nextLine();
+        String name = InputHelper.readString(scanner, "Customer name (first name, surname or both): ",
+                RULES::verifyCustomerName, "Invalid Customer Name");
 
         // The PE class checks the rule (the method tested by JUnit)
         Order rules = new Order();
@@ -205,7 +209,7 @@ public class OrderCLI {
         System.out.println(current);
         System.out.println("=== Enter New Details ===");
 
-        int publicationId = readInt(scanner, "Publication ID: ");
+        int publicationId = InputHelper.readInt(scanner, "Publication ID: ", RULES::verifyPublicationId, "Invalid Publication ID");
 
         // Look the publication up so only a real publication can be ordered
         Publication publication = new PublicationDAO().findPublicationById(publicationId);
@@ -216,8 +220,9 @@ public class OrderCLI {
         }
         System.out.println("Publication: " + publication.getName());
 
-        System.out.print("Delivery Days (e.g. MON,TUE,WED,THU,FRI): ");
-        String deliveryDays = scanner.nextLine().trim().toUpperCase().replace(" ", "");
+        String deliveryDays = InputHelper.readString(scanner, "Delivery Days (e.g. MON,TUE,WED,THU,FRI): ",
+                d -> RULES.verifyDeliveryDays(d.toUpperCase().replace(" ", "")),
+                "Invalid Delivery Days").toUpperCase().replace(" ", "");
 
         // The customer's other publications, without this order's own one,
         // so keeping the same publication is not counted as a duplicate
@@ -280,14 +285,9 @@ public class OrderCLI {
         }
     }
 
-    // Reads a whole number; text such as "abc" becomes -1, which the verify methods reject
+    // Reads a whole number; text such as "abc" is rejected and the user is asked again
 
     private static int readInt(Scanner scanner, String prompt) {
-        System.out.print(prompt);
-        try {
-            return Integer.parseInt(scanner.nextLine().trim());
-        } catch (NumberFormatException e) {
-            return -1;
-        }
+        return InputHelper.readInt(scanner, prompt);
     }
 }

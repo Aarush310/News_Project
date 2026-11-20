@@ -4,11 +4,13 @@ import com.newsagent.dao.DeliveryDocketDAO;
 import com.newsagent.model.DeliveryDocket;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 
 public class DeliveryDocketCLI {
+
+    // Used only to check input rules while the user types
+    private static final DeliveryDocket RULES = new DeliveryDocket();
 
     public static void main(String[] args) {
 
@@ -67,8 +69,8 @@ public class DeliveryDocketCLI {
 
         System.out.println("=== Create New Delivery Docket ===");
 
-        int areaNumber = readInt(scanner, "Area Number (1-24): ");
-        LocalDate date = readDate(scanner, "Date (YYYY-MM-DD, blank = today): ");
+        int areaNumber = InputHelper.readInt(scanner, "Area Number (1-24): ", RULES::verifyAreaNumber, "Invalid Area Number (must be 1-24)");
+        LocalDate date = InputHelper.readDate(scanner, "Date (YYYY-MM-DD, blank = today): ", RULES::verifyDocketDate, "Invalid Date");
 
         DeliveryDocket docket = new DeliveryDocket();
 
@@ -130,10 +132,10 @@ public class DeliveryDocketCLI {
         System.out.println(docket);
         System.out.println("=== Enter New Details ===");
 
-        LocalDate date = readDate(scanner, "Date (YYYY-MM-DD, blank = today): ");
+        LocalDate date = InputHelper.readDate(scanner, "Date (YYYY-MM-DD, blank = today): ", RULES::verifyDocketDate, "Invalid Date");
 
-        System.out.print("Status (PENDING / DELIVERED): ");
-        String status = scanner.nextLine().trim().toUpperCase();
+        String status = InputHelper.readString(scanner, "Status (PENDING / DELIVERED): ",
+                st -> RULES.verifyStatus(st.toUpperCase()), "Invalid Status (PENDING or DELIVERED)").toUpperCase();
 
         // 1. The PE class checks every rule
         if (!docket.updateDeliveryDocket(date, status)) {
@@ -200,27 +202,9 @@ public class DeliveryDocketCLI {
         }
     }
 
-    // Reads a whole number; text such as "abc" becomes -1, which the verify methods reject
+    // Reads a whole number; text such as "abc" is rejected and the user is asked again
     private static int readInt(Scanner scanner, String prompt) {
-        System.out.print(prompt);
-        try {
-            return Integer.parseInt(scanner.nextLine().trim());
-        } catch (NumberFormatException e) {
-            return -1;
-        }
+        return InputHelper.readInt(scanner, prompt);
     }
 
-    // Reads a date; blank means today, anything not YYYY-MM-DD becomes null, which verifyDocketDate rejects
-    private static LocalDate readDate(Scanner scanner, String prompt) {
-        System.out.print(prompt);
-        String text = scanner.nextLine().trim();
-        if (text.isEmpty()) {
-            return LocalDate.now();
-        }
-        try {
-            return LocalDate.parse(text);
-        } catch (DateTimeParseException e) {
-            return null;
-        }
-    }
 }

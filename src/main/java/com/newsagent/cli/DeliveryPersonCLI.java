@@ -8,6 +8,9 @@ import java.util.Scanner;
 
 public class DeliveryPersonCLI {
 
+    // Used only to check input rules while the user types
+    private static final DeliveryPerson RULES = new DeliveryPerson();
+
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
@@ -45,16 +48,13 @@ public class DeliveryPersonCLI {
 
         System.out.println("=== Create New Delivery Person ===");
 
-        System.out.print("First Name: ");
-        String firstName = scanner.nextLine().trim();
+        String firstName = InputHelper.readString(scanner, "First Name: ", RULES::verifyFirstName, "Invalid First Name");
 
-        System.out.print("Surname: ");
-        String surname = scanner.nextLine().trim();
+        String surname = InputHelper.readString(scanner, "Surname: ", RULES::verifySurname, "Invalid Surname");
 
-        System.out.print("Phone Number (10 digits): ");
-        String phoneNumber = scanner.nextLine().trim();
+        String phoneNumber = InputHelper.readString(scanner, "Phone Number (10 digits): ", RULES::verifyPhoneNumber, "Invalid Phone Number (must be 10 digits)");
 
-        int deliveryArea = readInt(scanner, "Delivery Area (1-24): ");
+        int deliveryArea = InputHelper.readInt(scanner, "Delivery Area (1-24): ", RULES::verifyDeliveryArea, "Invalid Delivery Area (must be 1-24)");
 
         DeliveryPerson person = new DeliveryPerson();
 
@@ -119,16 +119,13 @@ public class DeliveryPersonCLI {
         System.out.println(current);
         System.out.println("=== Enter New Details ===");
 
-        System.out.print("First Name: ");
-        String firstName = scanner.nextLine().trim();
+        String firstName = InputHelper.readString(scanner, "First Name: ", RULES::verifyFirstName, "Invalid First Name");
 
-        System.out.print("Surname: ");
-        String surname = scanner.nextLine().trim();
+        String surname = InputHelper.readString(scanner, "Surname: ", RULES::verifySurname, "Invalid Surname");
 
-        System.out.print("Phone Number (10 digits): ");
-        String phoneNumber = scanner.nextLine().trim();
+        String phoneNumber = InputHelper.readString(scanner, "Phone Number (10 digits): ", RULES::verifyPhoneNumber, "Invalid Phone Number (must be 10 digits)");
 
-        int deliveryArea = readInt(scanner, "Delivery Area (1-24): ");
+        int deliveryArea = InputHelper.readInt(scanner, "Delivery Area (1-24): ", RULES::verifyDeliveryArea, "Invalid Delivery Area (must be 1-24)");
 
         DeliveryPerson person = new DeliveryPerson();
 
@@ -209,14 +206,9 @@ public class DeliveryPersonCLI {
         System.out.println(list.size() + " delivery person(s).");
     }
 
-    // Reads a whole number; text such as "abc" becomes -1, which the verify methods reject
+    // Reads a whole number; text such as "abc" is rejected and the user is asked again
 
     private static int readInt(Scanner scanner, String prompt) {
-        System.out.print(prompt);
-        try {
-            return Integer.parseInt(scanner.nextLine().trim());
-        } catch (NumberFormatException e) {
-            return -1;
-        }
+        return InputHelper.readInt(scanner, prompt);
     }
 }

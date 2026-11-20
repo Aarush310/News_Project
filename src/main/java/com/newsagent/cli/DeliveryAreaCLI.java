@@ -13,6 +13,9 @@ import java.util.Scanner;
 
 public class DeliveryAreaCLI {
 
+    // Used only to check input rules while the user types
+    private static final DeliveryArea RULES = new DeliveryArea();
+
     public static void main(String[] args) {
 
         try (Connection connection = DatabaseConnection.getConnection()) {
@@ -44,14 +47,11 @@ public class DeliveryAreaCLI {
                             System.out.println();
                             System.out.println("=== Add New Delivery Area ===");
 
-                            System.out.print("Area Number (1-24): ");
-                            int number = Integer.parseInt(scanner.nextLine().trim());
+                            int number = InputHelper.readInt(scanner, "Area Number (1-24): ", RULES::verifyAreaNumber, "Invalid Area Number (must be 1-24)");
 
-                            System.out.print("Area Name: ");
-                            String name = scanner.nextLine();
+                            String name = InputHelper.readString(scanner, "Area Name: ", RULES::verifyAreaName, "Invalid Area Name");
 
-                            System.out.print("Delivery Person ID: ");
-                            int personId = Integer.parseInt(scanner.nextLine().trim());
+                            int personId = InputHelper.readInt(scanner, "Delivery Person ID: ", RULES::verifyDeliveryPersonId, "Invalid Delivery Person ID");
 
                             DeliveryArea area = new DeliveryArea();
 
@@ -88,8 +88,7 @@ public class DeliveryAreaCLI {
                             System.out.println();
                             System.out.println("=== Find Delivery Area ===");
 
-                            System.out.print("Area Number (1-24): ");
-                            int number = Integer.parseInt(scanner.nextLine().trim());
+                            int number = InputHelper.readInt(scanner, "Area Number (1-24): ", RULES::verifyAreaNumber, "Invalid Area Number (must be 1-24)");
 
                             if (number < 1 || number > 24) {
                                 System.out.println("Error: Invalid Area Number");
@@ -118,8 +117,7 @@ public class DeliveryAreaCLI {
                             System.out.println();
                             System.out.println("=== Update Delivery Area ===");
 
-                            System.out.print("Area Number (1-24): ");
-                            int number = Integer.parseInt(scanner.nextLine().trim());
+                            int number = InputHelper.readInt(scanner, "Area Number (1-24): ", RULES::verifyAreaNumber, "Invalid Area Number (must be 1-24)");
 
                             DeliveryArea current = dao.findDeliveryArea(number);
 
@@ -132,11 +130,9 @@ public class DeliveryAreaCLI {
                             System.out.println(current);
                             System.out.println("=== Enter New Details ===");
 
-                            System.out.print("New Area Name: ");
-                            String name = scanner.nextLine();
+                            String name = InputHelper.readString(scanner, "New Area Name: ", RULES::verifyAreaName, "Invalid Area Name");
 
-                            System.out.print("New Delivery Person ID: ");
-                            int personId = Integer.parseInt(scanner.nextLine().trim());
+                            int personId = InputHelper.readInt(scanner, "New Delivery Person ID: ", RULES::verifyDeliveryPersonId, "Invalid Delivery Person ID");
 
                             DeliveryArea area = new DeliveryArea();
 
@@ -168,8 +164,7 @@ public class DeliveryAreaCLI {
                             System.out.println();
                             System.out.println("=== Delete Delivery Area ===");
 
-                            System.out.print("Area Number (1-24): ");
-                            int number = Integer.parseInt(scanner.nextLine().trim());
+                            int number = InputHelper.readInt(scanner, "Area Number (1-24): ", RULES::verifyAreaNumber, "Invalid Area Number (must be 1-24)");
 
                             if (dao.findDeliveryArea(number) == null) {
                                 System.out.println("Error: Delivery Area not found.");

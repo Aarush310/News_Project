@@ -50,9 +50,9 @@ public class CustomerCLI {
 
         System.out.println("=== Create New Customer ===");
 
-        String firstName = InputHelper.readString(scanner, "First Name: ", RULES::verifyFirstName, "Invalid First Name");
+        String firstName = InputHelper.readString(scanner, "First Name: ", RULES::verifyFirstName, "Invalid First Name (letters only)");
 
-        String surname = InputHelper.readString(scanner, "Surname: ", RULES::verifySurname, "Invalid Surname");
+        String surname = InputHelper.readString(scanner, "Surname: ", RULES::verifySurname, "Invalid Surname (letters only)");
 
         String address = InputHelper.readString(scanner, "Address: ", RULES::verifyAddress, "Invalid Address");
 
@@ -145,9 +145,9 @@ public class CustomerCLI {
         System.out.println(current);
         System.out.println("=== Enter New Details ===");
 
-        String firstName = InputHelper.readString(scanner, "First Name: ", RULES::verifyFirstName, "Invalid First Name");
+        String firstName = InputHelper.readString(scanner, "First Name: ", RULES::verifyFirstName, "Invalid First Name (letters only)");
 
-        String surname = InputHelper.readString(scanner, "Surname: ", RULES::verifySurname, "Invalid Surname");
+        String surname = InputHelper.readString(scanner, "Surname: ", RULES::verifySurname, "Invalid Surname (letters only)");
 
         String address = InputHelper.readString(scanner, "Address: ", RULES::verifyAddress, "Invalid Address");
 

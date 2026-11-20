@@ -393,6 +393,54 @@ public class DeliveryPersonTest {
         assertFalse(p.createDeliveryPerson("Sean", "Walsh", "0861234567", 25));
     }
 
+    // ===== Name Character Tests (TC36 - TC39) =====
+
+    // TC36
+    // Technique: Equivalence Partitioning (invalid partition: digits)
+    // Test Objective: Verify a first name made of digits is rejected
+    // Input(s): First Name = "23232"
+    // Expected Output(s): Error message: "Invalid First Name"
+    @Test
+    void invalidFirstNameDigits_TC36() {
+        DeliveryPerson p = new DeliveryPerson();
+        assertFalse(p.verifyFirstName("23232"));
+    }
+
+    // TC37
+    // Technique: Equivalence Partitioning (invalid partition: letters mixed with digits)
+    // Test Objective: Verify a surname containing a digit is rejected
+    // Input(s): Surname = "Sm1th"
+    // Expected Output(s): Error message: "Invalid Surname"
+    @Test
+    void invalidSurnameDigits_TC37() {
+        DeliveryPerson p = new DeliveryPerson();
+        assertFalse(p.verifySurname("Sm1th"));
+    }
+
+    // TC38
+    // Technique: Equivalence Partitioning (valid partition: apostrophe, hyphen, space)
+    // Test Objective: Verify real names with an apostrophe, hyphen or space are accepted
+    // Input(s): First Name = "Mary-Anne", Surname = "O'Brien", Surname = "De Burca"
+    // Expected Output(s): All accepted
+    @Test
+    void validNamesPunctuation_TC38() {
+        DeliveryPerson p = new DeliveryPerson();
+        assertTrue(p.verifyFirstName("Mary-Anne"));
+        assertTrue(p.verifySurname("O'Brien"));
+        assertTrue(p.verifySurname("De Burca"));
+    }
+
+    // TC39
+    // Technique: Equivalence Partitioning (invalid partition: symbols)
+    // Test Objective: Verify a first name with a symbol such as @ is rejected
+    // Input(s): First Name = "J@hn"
+    // Expected Output(s): Error message: "Invalid First Name"
+    @Test
+    void invalidFirstNameSymbol_TC39() {
+        DeliveryPerson p = new DeliveryPerson();
+        assertFalse(p.verifyFirstName("J@hn"));
+    }
+
     // ===== White-Box Tests (WB01 - WB02) =====
 
     // WB01

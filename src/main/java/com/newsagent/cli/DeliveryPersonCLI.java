@@ -48,9 +48,9 @@ public class DeliveryPersonCLI {
 
         System.out.println("=== Create New Delivery Person ===");
 
-        String firstName = InputHelper.readString(scanner, "First Name: ", RULES::verifyFirstName, "Invalid First Name");
+        String firstName = InputHelper.readString(scanner, "First Name: ", RULES::verifyFirstName, "Invalid First Name (letters only)");
 
-        String surname = InputHelper.readString(scanner, "Surname: ", RULES::verifySurname, "Invalid Surname");
+        String surname = InputHelper.readString(scanner, "Surname: ", RULES::verifySurname, "Invalid Surname (letters only)");
 
         String phoneNumber = InputHelper.readString(scanner, "Phone Number (10 digits): ", RULES::verifyPhoneNumber, "Invalid Phone Number (must be 10 digits)");
 
@@ -119,9 +119,9 @@ public class DeliveryPersonCLI {
         System.out.println(current);
         System.out.println("=== Enter New Details ===");
 
-        String firstName = InputHelper.readString(scanner, "First Name: ", RULES::verifyFirstName, "Invalid First Name");
+        String firstName = InputHelper.readString(scanner, "First Name: ", RULES::verifyFirstName, "Invalid First Name (letters only)");
 
-        String surname = InputHelper.readString(scanner, "Surname: ", RULES::verifySurname, "Invalid Surname");
+        String surname = InputHelper.readString(scanner, "Surname: ", RULES::verifySurname, "Invalid Surname (letters only)");
 
         String phoneNumber = InputHelper.readString(scanner, "Phone Number (10 digits): ", RULES::verifyPhoneNumber, "Invalid Phone Number (must be 10 digits)");
 

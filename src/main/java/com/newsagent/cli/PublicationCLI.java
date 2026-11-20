@@ -10,6 +10,9 @@ import java.util.Scanner;
  */
 public class PublicationCLI {
 
+	// Used only to check input rules while the user types
+	private static final Publication RULES = new Publication();
+
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
 		PublicationDAO publicationDAO = new PublicationDAO();
@@ -54,24 +57,12 @@ public class PublicationCLI {
 
 	private static void addPublication(Scanner in, PublicationDAO publicationDAO) {
 		System.out.println("=== Create Publication ===");
-		System.out.print("Name (2-50 characters): ");
-		String name = in.nextLine().trim();
-		System.out.print("Type (newspaper / magazine): ");
-		String type = in.nextLine().trim();
-		System.out.print("Frequency (daily / weekly / monthly): ");
-		String frequency = in.nextLine().trim();
+		String name = InputHelper.readString(in, "Name (2-50 characters): ", RULES::verifyName, "Invalid Name (2-50 characters)");
+		String type = InputHelper.readString(in, "Type (newspaper / magazine): ", RULES::verifyType, "Invalid Type (newspaper or magazine)");
+		String frequency = InputHelper.readString(in, "Frequency (daily / weekly / monthly): ", RULES::verifyFrequency, "Invalid Frequency (daily, weekly or monthly)");
 
-		double price;
-		int quantityInStock;
-		try {
-			System.out.print("Price in euro (greater than 0): ");
-			price = Double.parseDouble(in.nextLine().trim());
-			System.out.print("Quantity in stock (0 or more): ");
-			quantityInStock = Integer.parseInt(in.nextLine().trim());
-		} catch (NumberFormatException e) {
-			System.out.println("Error: price and quantity must be numbers. Publication not created.");
-			return;
-		}
+		double price = InputHelper.readDouble(in, "Price in euro (greater than 0): ", RULES::verifyPrice, "Invalid Price (must be greater than 0)");
+		int quantityInStock = InputHelper.readInt(in, "Quantity in stock (0 or more): ", RULES::verifyQuantityInStock, "Invalid Quantity (must be 0 or more)");
 
 		Publication p = new Publication();
 		if (!p.verifyName(name)) System.out.println("Error: Invalid Name");
@@ -100,14 +91,7 @@ public class PublicationCLI {
 	}
 
 	private static void findPublication(Scanner in, PublicationDAO publicationDAO) {
-		System.out.print("Enter Publication ID: ");
-		int id;
-		try {
-			id = Integer.parseInt(in.nextLine().trim());
-		} catch (NumberFormatException e) {
-			System.out.println("Error: ID must be a number.");
-			return;
-		}
+		int id = InputHelper.readInt(in, "Enter Publication ID: ");
 
 		Publication p = publicationDAO.findPublicationById(id);
 		if (p == null) {
@@ -135,24 +119,12 @@ public class PublicationCLI {
 				+ current.getFrequency() + " | " + current.getPrice() + " | " + current.getQuantityInStock());
 		System.out.println("Enter the new details:");
 
-		System.out.print("Name (2-50 characters): ");
-		String name = in.nextLine().trim();
-		System.out.print("Type (newspaper / magazine): ");
-		String type = in.nextLine().trim();
-		System.out.print("Frequency (daily / weekly / monthly): ");
-		String frequency = in.nextLine().trim();
+		String name = InputHelper.readString(in, "Name (2-50 characters): ", RULES::verifyName, "Invalid Name (2-50 characters)");
+		String type = InputHelper.readString(in, "Type (newspaper / magazine): ", RULES::verifyType, "Invalid Type (newspaper or magazine)");
+		String frequency = InputHelper.readString(in, "Frequency (daily / weekly / monthly): ", RULES::verifyFrequency, "Invalid Frequency (daily, weekly or monthly)");
 
-		double price;
-		int quantityInStock;
-		try {
-			System.out.print("Price in euro (greater than 0): ");
-			price = Double.parseDouble(in.nextLine().trim());
-			System.out.print("Quantity in stock (0 or more): ");
-			quantityInStock = Integer.parseInt(in.nextLine().trim());
-		} catch (NumberFormatException e) {
-			System.out.println("Error: price and quantity must be numbers. Publication not updated.");
-			return;
-		}
+		double price = InputHelper.readDouble(in, "Price in euro (greater than 0): ", RULES::verifyPrice, "Invalid Price (must be greater than 0)");
+		int quantityInStock = InputHelper.readInt(in, "Quantity in stock (0 or more): ", RULES::verifyQuantityInStock, "Invalid Quantity (must be 0 or more)");
 
 		Publication p = new Publication();
 		if (!p.verifyName(name)) System.out.println("Error: Invalid Name");
@@ -214,12 +186,6 @@ public class PublicationCLI {
 	}
 
 	private static Integer readId(Scanner in) {
-		System.out.print("Enter Publication ID: ");
-		try {
-			return Integer.parseInt(in.nextLine().trim());
-		} catch (NumberFormatException e) {
-			System.out.println("Error: ID must be a number.");
-			return null;
-		}
+		return InputHelper.readInt(in, "Enter Publication ID: ");
 	}
 }

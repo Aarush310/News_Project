@@ -16,6 +16,9 @@ import java.util.Scanner;
 
 public class BillCLI {
 
+    // Used only to check input rules while the user types
+    private static final Bill RULES = new Bill();
+
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
@@ -61,8 +64,8 @@ public class BillCLI {
 
         int customerId = customer.getCustomerId();
 
-        int year = readInt(scanner, "Year (e.g. 2026): ");
-        int month = readInt(scanner, "Month (1-12): ");
+        int year = InputHelper.readInt(scanner, "Year (e.g. 2026): ", RULES::verifyYear, "Invalid Year");
+        int month = InputHelper.readInt(scanner, "Month (1-12): ", RULES::verifyMonth, "Invalid Month (must be 1-12)");
 
         Bill bill = new Bill();
 
@@ -213,13 +216,6 @@ public class BillCLI {
      * Reads a whole number and handles invalid text input.
      */
     private static int readInt(Scanner scanner, String prompt) {
-        System.out.print(prompt);
-
-        try {
-            return Integer.parseInt(scanner.nextLine().trim());
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid input. Please enter a whole number.");
-            return -1;
-        }
+        return InputHelper.readInt(scanner, prompt);
     }
 }

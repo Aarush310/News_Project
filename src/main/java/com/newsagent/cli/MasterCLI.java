@@ -81,12 +81,6 @@ public class MasterCLI {
     }
 
     private static int readInt(Scanner scanner, String prompt) {
-        System.out.print(prompt);
-
-        try {
-            return Integer.parseInt(scanner.nextLine().trim());
-        } catch (NumberFormatException e) {
-            return -1;
-        }
+        return InputHelper.readInt(scanner, prompt);
     }
 }

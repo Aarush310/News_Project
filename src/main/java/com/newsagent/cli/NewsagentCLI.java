@@ -8,6 +8,9 @@ import java.util.Scanner;
 
 public class NewsagentCLI {
 
+    // Used only to check input rules while the user types
+    private static final Newsagent RULES = new Newsagent();
+
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
@@ -45,14 +48,11 @@ public class NewsagentCLI {
 
         System.out.println("=== Create New Newsagent ===");
 
-        System.out.print("Shop Name: ");
-        String shopName = scanner.nextLine().trim();
+        String shopName = InputHelper.readString(scanner, "Shop Name: ", RULES::verifyShopName, "Invalid Shop Name");
 
-        System.out.print("Address: ");
-        String address = scanner.nextLine().trim();
+        String address = InputHelper.readString(scanner, "Address: ", RULES::verifyAddress, "Invalid Address");
 
-        System.out.print("Phone Number (10 digits): ");
-        String phoneNumber = scanner.nextLine().trim();
+        String phoneNumber = InputHelper.readString(scanner, "Phone Number (10 digits): ", RULES::verifyPhoneNumber, "Invalid Phone Number (must be 10 digits)");
 
         Newsagent newsagent = new Newsagent();
 
@@ -114,14 +114,11 @@ public class NewsagentCLI {
         System.out.println(current);
         System.out.println("=== Enter New Details ===");
 
-        System.out.print("Shop Name: ");
-        String shopName = scanner.nextLine().trim();
+        String shopName = InputHelper.readString(scanner, "Shop Name: ", RULES::verifyShopName, "Invalid Shop Name");
 
-        System.out.print("Address: ");
-        String address = scanner.nextLine().trim();
+        String address = InputHelper.readString(scanner, "Address: ", RULES::verifyAddress, "Invalid Address");
 
-        System.out.print("Phone Number (10 digits): ");
-        String phoneNumber = scanner.nextLine().trim();
+        String phoneNumber = InputHelper.readString(scanner, "Phone Number (10 digits): ", RULES::verifyPhoneNumber, "Invalid Phone Number (must be 10 digits)");
 
         Newsagent newsagent = new Newsagent();
 
@@ -198,14 +195,9 @@ public class NewsagentCLI {
         System.out.println(list.size() + " newsagent(s).");
     }
 
-    // Reads a whole number; text such as "abc" becomes -1, which the verify methods reject
+    // Reads a whole number; text such as "abc" is rejected and the user is asked again
 
     private static int readInt(Scanner scanner, String prompt) {
-        System.out.print(prompt);
-        try {
-            return Integer.parseInt(scanner.nextLine().trim());
-        } catch (NumberFormatException e) {
-            return -1;
-        }
+        return InputHelper.readInt(scanner, prompt);
     }
 }

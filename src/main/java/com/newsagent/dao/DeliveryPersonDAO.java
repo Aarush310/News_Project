@@ -6,7 +6,7 @@ import com.newsagent.model.DeliveryPerson;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class DeliveryPersonDAO {
+public class DeliveryPersonDAO {    
 
     // CREATE
     private static final String INSERT_DELIVERY_PERSON =

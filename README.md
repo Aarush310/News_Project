@@ -13,7 +13,7 @@ Architecture, as on the lecturer's board: `XxxCLI` (menu) → `Xxx` (rules) → 
 | - | Delivery Person | DeliveryPerson, DeliveryPersonCLI, DeliveryPersonDAO | DeliveryPersonTable |
 | - | Newsagent | Newsagent, NewsagentCLI, NewsagentDAO | NewsagentTable |
 
-`MasterCLI` is the main menu: 1. Customers, 2. Orders, 3. Publications, 4. Delivery Areas, 5. Delivery Dockets, 6. Extra Features, 7. Monthly Bills, 8. Delivery Persons, 9. Newsagent Account, 10. Exit. Each entity menu has Add, Find By ID, Update, Delete and List All, and its Exit comes back to the main menu.
+`MasterCLI` is the main menu: 1. Customer Management, 2. Order Management, 3. Publication Management, 4. Delivery Area Management, 5. Delivery Docket Management, 6. Monthly Bills, 7. Delivery Persons, 8. Newsagent Account, 9. Exit. Each entity menu has Add, Find By ID, Update, Delete and List All, and its Exit comes back to the main menu. Every input is validated: if a value is invalid (e.g. a name with digits or a phone number that is not 10 digits) the menu says so and asks for it again.
 
 All eight entities use one database (`newsagentdb`) and one shared `DatabaseConnection`.
 
@@ -44,6 +44,12 @@ docs/                                  test designs and class documents
 
 If VS Code shows old errors after pulling: Ctrl+Shift+P → `Java: Clean Java Language Server Workspace` → Restart and delete.
 
+## Run the executable JAR (no VS Code needed)
+
+1. Run `sql/schema.sql` then `sql/sample_data.sql` in MySQL Workbench.
+2. In a terminal: `java -Ddb.user=root -Ddb.password=YOUR_PASSWORD -jar NewsagentSystem.jar`
+   (the JAR includes the MySQL driver; leave out `-Ddb.password` if your MySQL has no password).
+
 ## Product skeleton + JUnit (TDD)
 
 1. Copy `tdd/product-skeleton/Xxx.java` over `src/main/java/com/newsagent/model/Xxx.java`.
@@ -54,7 +60,7 @@ If VS Code shows old errors after pulling: Ctrl+Shift+P → `Java: Clean Java La
 
 | Requirement | Where to show it |
 | --- | --- |
-| 100% equivalence partitioning and boundary value analysis | Run all tests in the Testing panel: 280 JUnit tests pass. Coverage per rule: `docs/Test Design - EP and BVA.xlsx` (one EP-BVA sheet per entity). |
+| 100% equivalence partitioning and boundary value analysis | Run all tests in the Testing panel: 288 JUnit tests pass. Coverage per rule: `docs/Test Design - EP and BVA.xlsx` (one EP-BVA sheet per entity). |
 | Show order IDs by your name (two tables connected) | `MasterCLI` → 2. Order Management → 3. Find Orders By Customer Name, type your name. In Workbench: run `sql/orders_by_customer_name.sql` (`CustomerTable JOIN OrderTable`). |
 | SDLC justification | `docs/SDLC Justification.docx` (Scrum, compared with Waterfall, V-Model, Iterative, Incremental, Spiral). |
 | UAT (user acceptance tests) | `docs/Test Design - EP and BVA.xlsx`, UAT sheet: 33 tests run end to end through MasterCLI against MySQL, all pass. |
